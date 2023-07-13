@@ -63,8 +63,7 @@ switch ($action) {
 }
 
 function login($data){
-    echo json_encode($data);
-    /*
+
     try{
         // ReCaptcha
         $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify'; 
@@ -99,7 +98,7 @@ function login($data){
         
     }catch(exception $e){
         echo json_encode('error: '.$e);
-    }*/
+    }
     
 }
 
