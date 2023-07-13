@@ -72,7 +72,9 @@ function login($data){
         $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response); 
         $recaptcha = json_decode($recaptcha); 
 
-        if($recaptcha['success'] == true){
+        echo json_encode($recaptcha);
+/*
+        if($recaptcha){
 
             $bm = new BaseModel();
             $user = $bm->select("sys_user", "username = '".$data['username']."'");
@@ -95,7 +97,7 @@ function login($data){
             echo 2;
             echo json_encode($recaptcha);
 
-        }
+        }*/
         
     }catch(exception $e){
         echo json_encode('error: '.$e);
