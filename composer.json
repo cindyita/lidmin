@@ -1,0 +1,17 @@
+{
+    "name": "vx/lidmin",
+    "description": "Administrador de enlaces, QR, archivos y más",
+    "autoload": {
+        "psr-4": {
+            "Endroid\\QrCode\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Virtual blux"
+        }
+    ],
+    "require": {
+        "endroid/qr-code": "^3.0"
+    }
+}

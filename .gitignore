@@ -1,0 +1,8 @@
+# Ignorar directorio vendor
+/vendor/
+
+# Ignorar archivo composer.lock
+composer.lock
+
+#ignorar config
+config.php

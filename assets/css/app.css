@@ -1,0 +1,458 @@
+:root {
+    --primary:#4F68FF;
+    --secondary: #8597FF;
+    --tertiary:#A1AEFF;
+    --white: #fff;
+    --black: #000;
+    --lightfont: #e4e7ff;
+    --font:#2E4AF3;
+}
+* {
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    transition: 0.1s ease;
+    font-family: 'Lato', sans-serif;
+}
+
+body,html,.main {
+    width: 100%;
+    min-height: 100vh;
+}
+
+li{
+    list-style: none;
+    margin:0;
+    padding:0;
+}
+a,nav a,li span,td a {
+    text-decoration: none !important;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+}
+
+h1,h2,h3,h4 {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600 !important;
+}
+
+input,select {
+    border-radius: 8px !important;
+    border: 1px solid var(--tertiary) !important;
+    padding: 9px 12px !important;
+}
+
+input:focus, select:focus, select, input.form-control:focus, select.form-control:focus,a:focus {
+    outline:none !important;
+    outline-width: 0 !important;
+    box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+}
+
+input:focus, select:focus{
+    border: 1px solid var(--primary) !important;
+}
+/*------------------*/
+
+.btn-warning {
+    background-color: var(--primary) !important;
+    border:0 !important;
+    color: var(--white);
+}
+.btn-warning:hover {
+    background-color: var(--secondary) !important;
+    color: var(--white);
+}
+.modal-content {
+    background-color: var(--white);
+    border:0;
+    border-radius: 0;
+}
+.modal-header {
+    border-bottom:0;
+    font-family: 'Raleway', sans-serif;
+}
+.modal-header .modal-title {
+    font-size:15pt;
+}
+.close-modal {
+    border:0;
+    background-color: transparent;
+}
+/*-----------------*/
+.logo img {
+    width: 100%;
+}
+.main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.main .sidebar {
+    width: 14%;
+    height: 100vh;
+    background-color: var(--lightfont);
+    padding: 3% 1%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+    left:0;
+    z-index:10;
+}
+
+.main .sidebar .logo {
+    text-align: center;
+    padding-bottom: 10%;
+}
+
+.main .sidebar nav,
+.main .collapse-menu-mobile nav {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+.main .sidebar nav a,
+.main .collapse-menu-mobile nav a {
+    background-color: var(--font);
+    color: var(--white);
+    padding: 14px 0 14px 15%;
+    text-align: center;
+}
+.main .sidebar nav a.active,
+.main .sidebar nav a:hover,
+.main .collapse-menu-mobile nav a.active,
+.main .collapse-menu-mobile nav a:hover {
+    background-color: var(--secondary);
+}
+.main .sidebar nav a li,
+.main .collapse-menu-mobile nav a li {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.main .sidebar .menu-mobile {
+    display:none;
+}
+.main .sidebar .user {
+    text-align: center;
+    color: var(--primary);
+}
+.main .sidebar .user a {
+    color: var(--tertiary);
+}
+.main .sidebar .user a:hover {
+    color: var(--primary);
+}
+
+.main .collapse-menu-mobile {
+    background-color: var(--black);
+    width: 100%;
+}
+.user-mobile {
+    display: none;
+}
+.main .content {
+    flex-grow: 4;
+    height: 100vh;
+    padding: 2%;
+    padding-left:16%;
+    overflow-x: hidden;
+}
+
+/*---BOOTSTRAP---*/
+
+.btn.btn-dark {
+    background-color: var(--font);
+    border:0;
+}
+.btn.btn-dark:hover,
+.btn.btn-dark:active {
+    background-color: var(--primary);
+}
+
+button.btn {
+    border-radius:0;
+}
+
+.form-check-input:checked {
+    background-color: var(--primary);
+}
+
+/*----DATATABLES----*/
+
+.datatable {
+    padding: 25px;
+    width: 100%;
+}
+.datatable input,
+.datatable select {
+    border:1px solid var(--secondary);
+    border-radius: 15px;
+    font-size: 10pt;
+}
+.datatable input {
+    width: 100%;
+    padding: 4px 5px;
+}
+.datatable button.btn-secondary {
+    background-color: var(--font);
+    border:0;
+}
+.datatable button.btn-secondary:hover {
+    background-color: var(--secondary);
+}
+.datatable a,.datatable a:hover,.datatable a:focus {
+    color: initial;
+}
+.datatable .previous a,
+.datatable .next a{
+    border: 0;
+    background-color: transparent;
+}
+.datatable .active a.page-link {
+    background-color: var(--font) !important;
+    border:0;
+    color: var(--white);
+}
+
+.datatable .datatable-top {
+    display:flex;
+    justify-content: flex-end;
+}
+.datatable thead tr:first-child th {
+    background-color: var(--font);
+    color:var(--white);
+}
+.datatable thead tr:first-child th .datatable-sorter::before {
+    border-top: 4px solid white;
+    opacity:0.5;
+    bottom:3px;
+}
+.datatable thead tr:first-child th .datatable-sorter::after {
+    border-bottom: 4px solid white;
+    opacity:0.5;
+    top:3px;
+}
+.datatable td button {
+    padding: 2px 6px;
+}
+.datatable td button i{
+    font-size:10pt;
+}
+
+table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before {
+    background-color: var(--font) !important;
+}
+
+.info-card {
+    background-color: var(--lightfont);
+    color: var(--primary);
+    padding: 20px;
+    width: 20%;
+    border-left: 15px solid var(--primary);
+    font-size: 15pt;
+}
+.info-card div {
+    font-weight: 600;
+}
+.info-card span {
+    color: var(--secondary);
+}
+.archive-card {
+    position: relative;
+}
+.archive-card .archive-card-content {
+    text-decoration: none;
+    border: 1px solid var(--lightfont);
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 200px;
+    color: var(--black);
+    font-weight: 500;
+    box-shadow: 0 0 4px 1px rgba(211, 211, 211, 0.336);
+}
+.archive-card .left-icon {
+    position: absolute;
+    top:11px;
+    left:14px;
+}
+.archive-card .right-icon {
+    position: absolute;
+    top:5px;
+    right:5px;
+}
+.archive-card .right-icon .btn-dropdown {
+    padding: 7px 10px;
+}
+.archive-card .right-icon .btn-dropdown i {
+    color: var(--primary);
+}
+.archive-card .right-icon .btn-dropdown:hover i,
+.archive-card .right-icon .btn-dropdown:active i,
+.archive-card .right-icon .btn-dropdown:focus i{
+    color: var(--black);
+}
+.archive-card span.title {
+    margin-bottom:5px;
+    text-align: center;
+}
+.archive-card span.subtitle {
+    font-size: 10pt;
+    color: var(--secondary);
+    text-align: center;
+    line-height: 10pt;
+    padding: 5px 0;
+}
+.archive-card span.file-icon i{
+    font-size: 50pt;
+    color: var(--primary);
+    padding: 10px 0;
+}
+.archive-card .info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 9pt;
+    width: 100%;
+    color: var(--tertiary);
+}
+.archive-card .info span {
+    width: 50%;
+}
+.btn-logout {
+    cursor: pointer;
+    text-decoration: none;
+    color:var(--white);
+}
+table.dataTable.table-striped>tbody>tr.odd>* {
+    box-shadow: inset 0 0 0 9999px var(--lightfont);
+}
+
+.limit-lines {
+  line-height: 1.2;
+  max-width: 100%;
+  max-height: 2.4em; /* Line-height * por el número de líneas deseadas */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/*-------------------------------------*/
+/*-------------RESPONSIVE--------------*/
+/*-------------------------------------*/
+
+@media (max-width: 1370px){
+    .main .sidebar {
+        width: 25%;
+    }
+}
+
+@media (max-width: 1024px){
+    .main .content {
+        padding-left: 22%;
+    }
+    .main .sidebar {
+        width: 20%;
+    }
+}
+
+@media (max-width: 800px){
+    .main {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+    }
+    .main .sidebar .logomenu {
+        display:flex;
+        justify-content: space-between;
+        flex-grow: 5;
+        align-items: center;
+    }
+    .main .sidebar .logo {
+        padding-bottom: 0;
+        height: 100%;
+    }
+    .main .sidebar .logo img {
+        height: 100%;
+    }
+    .main .sidebar {
+        width: 100%;
+        height: 80px;
+        padding: 1% 3%;
+        flex-direction: row;
+        gap:10px;
+        position: relative;
+    }
+    .main .sidebar .user {
+        display:none;
+        align-items: center;
+    }
+    .user-mobile {
+        background-color: var(--primary);
+        padding: 10px 0;
+        width: 100%;
+        color: var(--white);
+        text-align: center;
+        position: fixed;
+        bottom:0;
+        display: block;
+        z-index:10;
+    }
+    .main .sidebar .menu-mobile {
+        display:block;
+    }
+    .main .sidebar .menu-mobile button i {
+        font-size:15pt;
+    }
+    .main .sidebar .menu-mobile button {
+        border:0;
+    }
+    .main .sidebar .menu nav {
+        display:none;
+    }
+    .main .collapse-menu-mobile nav {
+        gap: 5px;
+        background-color: var(--lightfont);
+    }
+    .main .collapse-menu-mobile nav a {
+        padding: 10px 0 10px 5%;
+    }
+    .main .content {
+        width: 100%;
+        height: auto;
+        padding: 3%;
+        padding-bottom: 30px;
+    }
+    .datatable {
+        width: 100%;
+        padding:0;
+        padding-top:10px;
+    }
+    .info-card {
+        width: 100%;
+    }
+    .archive-card .archive-card-content {
+        width: 170px;
+    }
+    .archive-content {
+        justify-content: center;
+    }
+
+}
+@media (max-width: 350px){
+    .archive-content .archive-card,
+    .archive-content .archive-card-content{
+        width: 100%;
+    }
+}

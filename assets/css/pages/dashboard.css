@@ -1,0 +1,21 @@
+.qrGenerator {
+    width:50%;
+}
+.stats-panel {
+    display: flex;
+    gap: 2%;
+}
+
+/*-------------------------------------*/
+/*-------------RESPONSIVE--------------*/
+/*-------------------------------------*/
+
+@media (max-width: 800px){
+    .stats-panel {
+        flex-direction: column;
+        gap:10px;
+    }
+    .qrGenerator {
+        width:100%;
+    }
+}

@@ -1,0 +1,62 @@
+/*-------LOGIN-------*/
+.content-login {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login {
+    width: 22%;
+    background-color: var(--lightfont);
+    padding: 3%;
+    color: var(--primary);
+    text-align: center;
+}
+.login form {
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+}
+.login form .username input,
+.login form .password input{
+    padding: 8px 10px;
+    margin-top:7px;
+    width: 100%;
+}
+.login form button[type=submit]{
+    border:0;
+    padding: 10px 0;
+    background-color:var(--primary);
+    cursor: pointer;
+    transition: 0.2s ease;
+    font-weight: 600;
+    color: var(--white);
+}
+.login form button[type=submit]:hover {
+    background-color:var(--secondary);
+}
+.login form input[type="checkbox"]{
+    border:0;
+}
+
+.alert-error {
+    color:red;
+    display: none;
+}
+
+/*-------------------------------------*/
+/*-------------RESPONSIVE--------------*/
+/*-------------------------------------*/
+
+@media (max-width: 1370px){
+    .login {
+        width: 40%;
+    }
+}
+
+@media (max-width: 600px){
+    .login {
+        width: 90%;
+    }
+}
