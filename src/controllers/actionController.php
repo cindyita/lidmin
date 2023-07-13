@@ -65,21 +65,37 @@ switch ($action) {
 function login($data){
 
     try{
+        // ReCaptcha
+        $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify'; 
+        $recaptcha_secret = '6LcVxR0nAAAAAEsXfq83Av-3i-KALzwKclGK7vUQ'; 
+        $recaptcha_response = $data['g-recaptcha-response']; 
+        $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response); 
+        $recaptcha = json_decode($recaptcha); 
 
-        $bm = new BaseModel();
-        $user = $bm->select("sys_user", "username = '".$data['username']."'");
-        $user = $user == null ? null : $user[0];
+        echo json_encode($recaptcha);
 
-        if(isset($user) && isset($user['password']) && $user['password'] == md5($data['pswd']))
-        {
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['name'] = $user['name'];
-            $_SESSION['last_name'] = $user['last_name'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['email'] = $user['email'];
-            echo 1;
-        }else{
-            echo 0;
+        if($recaptcha['success'] == true){
+
+            $bm = new BaseModel();
+            $user = $bm->select("sys_user", "username = '".$data['username']."'");
+            $user = $user == null ? null : $user[0];
+
+            if(isset($user) && isset($user['password']) && $user['password'] == md5($data['pswd']))
+            {
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['name'] = $user['name'];
+                $_SESSION['last_name'] = $user['last_name'];
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['email'] = $user['email'];
+                echo 1;
+            }else{
+                echo 0;
+            }
+
+        } else {
+
+            echo 2;
+
         }
         
     }catch(exception $e){
