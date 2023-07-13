@@ -10,15 +10,6 @@
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <!-----------ReCaptcha------------>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script>
-        grecaptcha.ready(function() {
-            grecaptcha.execute('6LcVxR0nAAAAAFrJIgfTBJVTh0cI7FucX7wJcoIZ', {action: 'formulario'})
-            .then(function(token) {
-                var recaptchaResponse = document.getElementById('recaptchaResponse');
-                recaptchaResponse.value = token;
-            });
-        });
-    </script>
     <!-----------/ReCaptcha------------>
 </head>
 <body>
@@ -43,6 +34,9 @@
                     <div class="alert-error" id="error-captcha">
                         <strong>Error:</strong> El captcha es inválido
                     </div>
+                    <div class="alert-error" id="error-fatal">
+                        <strong>Error:</strong> Hubo un error al iniciar sesión
+                    </div>
                     <div class="username">
                         <label for="username" class="form-label">Usuario</label><br>
                         <input type="text" class="form-control" id="username" placeholder="Ingresa tu nombre de usuario" name="username" maxlength="50" required>
@@ -57,7 +51,6 @@
                         </label>
                     </div>
                     <div class="g-recaptcha" data-sitekey="6LcVxR0nAAAAAFrJIgfTBJVTh0cI7FucX7wJcoIZ"></div>
-                    <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
                     <button type="submit" class="btn btn-primary">Entrar</button>
                 </form>
             </div>

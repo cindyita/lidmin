@@ -34,6 +34,9 @@ $(document).ready(function () {
                 } else if(res == 0){
                     console.log('Error login');
                     $('#error-login').show();
+                } else {
+                    console.log(res);
+                    $('#error-fatal').show();
                 }
             },
             error: function(xhr, status, error) {

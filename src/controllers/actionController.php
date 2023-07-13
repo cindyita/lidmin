@@ -64,11 +64,11 @@ switch ($action) {
 
 function login($data){
     try{
-
+        echo json_encode($data);
         // ReCaptcha
         $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify'; 
         $recaptcha_secret = '6LcVxR0nAAAAAEsXfq83Av-3i-KALzwKclGK7vUQ'; 
-        $recaptcha_response = $data['recaptcha_response']; 
+        $recaptcha_response = $data['g-recaptcha-response']; 
         $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response); 
         $recaptcha = json_decode($recaptcha); 
 
