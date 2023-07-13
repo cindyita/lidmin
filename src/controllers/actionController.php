@@ -301,6 +301,19 @@ function saveSettings($data) {
 
         $existRegister = $bm->select("sys_setting", "id_user = ".$_SESSION['user_id']);
 
+        if(!empty($existRegister) && isset($existRegister[0]['logo'])) {
+            $archive = "../../assets/img/userapp/logo/{$existRegister[0]['logo']}";
+            if (file_exists($archive)) {
+                unlink($archive);
+            }
+        }
+        if(!empty($existRegister) && isset($existRegister[0]['favicon'])) {
+            $archive = "../../assets/img/userapp/favicon/{$existRegister[0]['favicon']}";
+            if (file_exists($archive)) {
+                unlink($archive);
+            }
+        }
+
         if (!empty($existRegister)) {
 
             $insert = array(
