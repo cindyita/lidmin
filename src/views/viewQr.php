@@ -1,7 +1,9 @@
-<?php 
-    $colorHexadecimal = $company['primary_color'];
-    $colorfont = sscanf($colorHexadecimal, "#%02x%02x%02x");
-    $colorfont = 'rgba(' . $colorfont[0] . ',' . $colorfont[1] . ',' . $colorfont[2] . ',0.2)';
+<?php
+    if ($company != 0) {
+        $colorHexadecimal = $company['primary_color'];
+        $colorfont = sscanf($colorHexadecimal, "#%02x%02x%02x");
+        $colorfont = 'rgba(' . $colorfont[0] . ',' . $colorfont[1] . ',' . $colorfont[2] . ',0.2)';
+    }
 
 ?>
 
@@ -23,7 +25,7 @@
             } elseif($setting != 0 && $company == 0) {
                 echo $setting['color_font'];
             }else{
-                echo '#4F68FF';
+                echo '#E4E7FF';
             } ?>;
         }
         .container .content #share-buttons a {
@@ -51,7 +53,7 @@
         </header>
         <div class="content">
             <h2><?php echo $qrdata['name']; ?></h2>
-            <img src="./assets/img/qr/<?php echo $qrdata['archive']; ?>" />
+            <img src="./assets/img/qr/<?php echo $qrdata['id_user'].'/'.$qrdata['archive']; ?>" />
             <div id="share-buttons">
                 Compartir: 
                 <a class="share-button" id="facebook-share"><i class="fa-brands fa-facebook"></i></a>

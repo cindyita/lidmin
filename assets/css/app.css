@@ -310,6 +310,11 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before {
     text-align: center;
     line-height: 10pt;
     padding: 5px 0;
+    line-height: 1.2;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .archive-card span.file-icon i{
     font-size: 50pt;

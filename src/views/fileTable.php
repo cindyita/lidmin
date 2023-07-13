@@ -87,8 +87,17 @@ Layout::header('archivos',['./assets/css/pages/fileTable.css']);
                                     case "xlsx":
                                         echo "fa-file-excel";
                                     break;
+                                    case "pptx":
+                                        echo "fa-file-powerpoint";
+                                    break;
                                     case "txt":
                                         echo "fa-file-lines";
+                                    break;
+                                    case "mp3":
+                                        echo "fa-file-audio";
+                                    break;
+                                    case "wav":
+                                        echo "fa-file-audio";
                                     break;
                                     default:
                                         echo "fa-file";
@@ -97,7 +106,7 @@ Layout::header('archivos',['./assets/css/pages/fileTable.css']);
                             ?>"></i>
                         </span>
                         <span class="title limit-lines"><?php echo $value['name']; ?></span>
-                        <span class="subtitle limit-lines"><?php echo $value['archive']; ?></span>
+                        <span class="subtitle"><?php echo $value['archive']; ?></span>
                         <div class="info">
                             <span class="archive-company"><?php echo ($value['company'] ? $value['company'] : '[Sin empresa]'); ?></span>
                             <span class="archive-date text-end"><?php echo date('d-m-Y', strtotime($value['timestamp_create'])); ?></span>

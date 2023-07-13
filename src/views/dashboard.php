@@ -39,7 +39,7 @@ Layout::header('dashboard',['./assets/css/pages/dashboard.css']);
                     <label for="company">Empresa asociada</label>
                     <select class="form-select" id="company" name="company" required>
                         <option value="null" hidden>Selecciona una o ninguna empresa</option>
-                        <option value="0">Ninguna</option>
+                        <option value="0" selected>Ninguna</option>
                         <?php foreach ($company as $key => $value) { ?>
                             <option value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>
                         <?php } ?>

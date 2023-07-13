@@ -12,9 +12,11 @@
         }
     }
 
-    $colorHexadecimal = $company['primary_color'];
-    $colorfont = sscanf($colorHexadecimal, "#%02x%02x%02x");
-    $colorfont = 'rgba(' . $colorfont[0] . ',' . $colorfont[1] . ',' . $colorfont[2] . ',0.2)';
+    if ($company != 0) {
+        $colorHexadecimal = $company['primary_color'];
+        $colorfont = sscanf($colorHexadecimal, "#%02x%02x%02x");
+        $colorfont = 'rgba(' . $colorfont[0] . ',' . $colorfont[1] . ',' . $colorfont[2] . ',0.2)';
+    }
 
 
 ?>
@@ -36,7 +38,7 @@
             } elseif($setting != 0 && $company == 0) {
                 echo $setting['color_font'];
             }else{
-                echo '#4F68FF';
+                echo '#E4E7FF';
             } ?>;
         }
         header img {
@@ -109,8 +111,8 @@
                 <h2><?php echo $filedata['name']; ?></h2>
                 <p><?php echo $filedata['archive']; ?></p>
                 <?php if ($filedata['type'] == 'jpg' || $filedata['type'] == 'png' || $filedata['type'] == 'jpeg') { ?>
-                    <a href="<?php echo BASEURL.'assets/doc/'.$filedata['archive']; ?>" class="preview" target="_blank">
-                        <img src="./assets/doc/<?php echo $filedata['archive']; ?>" alt="preview img" width="100%">
+                    <a href="<?php echo BASEURL.'assets/doc/'.$filedata['id_user'].'/'.$filedata['archive']; ?>" class="preview" target="_blank">
+                        <img src="./assets/doc/<?php echo $filedata['id_user'].'/'.$filedata['archive']; ?>" alt="preview img" width="100%">
                     </a>
                 <?php } ?>
                 <?php if ($filedata['type'] == 'pdf') { ?>
@@ -119,7 +121,7 @@
                         <button class="btn-pdf" type="submit">Ver PDF <i class="fa-solid fa-eye"></i></button>
                     </form>
                 <?php } ?>
-                <a href="<?php echo BASEURL . 'assets/doc/' . $filedata['archive']; ?>" download>
+                <a href="<?php echo BASEURL . 'assets/doc/'.$filedata['id_user'].'/'. $filedata['archive']; ?>" download>
                     <button class="btn-pdf">Descargar archivo <i class="fa-solid fa-download"></i></button>
                 </a>
                 <div id="share-buttons">

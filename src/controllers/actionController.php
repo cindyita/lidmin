@@ -66,6 +66,7 @@ function login($data){
 
     try{
         // ReCaptcha
+        /*-----------*/
         $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify'; 
         $recaptcha_secret = '6LcVxR0nAAAAAEsXfq83Av-3i-KALzwKclGK7vUQ'; 
         $recaptcha_response = $data['g-recaptcha-response']; 
@@ -89,7 +90,7 @@ function login($data){
             }else{
                 echo 0;
             }
-
+        /*-------*/
         } else {
 
             echo 2;
@@ -142,7 +143,13 @@ function generateQR($data)
             try{
                 $name = 'qr_'.$_SESSION['user_id'].'_'.$data['company'].'_'.$dateNumber;
                 $qrCode = new QrCode($data['url']);
-                $qrCode->writeFile("../../assets/img/qr/{$name}.png");
+
+                $routeBaseUser = '../../assets/img/qr/' . $_SESSION['user_id'] . '/';
+                if (!file_exists($routeBaseUser)) {
+                    mkdir($routeBaseUser, 0777, true);
+                }
+
+                $qrCode->writeFile("../../assets/img/qr/{$_SESSION['user_id']}/{$name}.png");
 
                 $insert = array(
                     'name' => $data['title'],
@@ -162,32 +169,40 @@ function generateQR($data)
         break;
         case 'file':
         
-
             try{
                 if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK){
 
                     $originalFileName = $_FILES['file']['name'];
                     $extension = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
-                    $nameFile = 'file_'.$_SESSION['user_id'].'_'.$companyid.'_'.$dateNumber.'.'.$extension;
+                    //$nameFile = 'file_'.$_SESSION['user_id'].'_'.$companyid.'_'.$dateNumber.'.'.$extension;
+                    $nameFile = $originalFileName;
                     $type = $_FILES['file']['type'];
                     //$size = $_FILES['file']['size'];
                     $temp = $_FILES['file']['tmp_name'];
 
-                    $allowedExtensions = ['pdf', 'doc', 'docx', 'txt', 'xlsx', 'rar', 'pptx', 'jpg', 'jpeg', 'png', 'gif']; // Extensiones permitidas
-                    $allowedMimeTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/x-rar-compressed', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/jpeg', 'image/png', 'image/gif']; // Tipos MIME permitidos
+                    $allowedExtensions = ['pdf', 'doc', 'docx', 'txt', 'xlsx', 'pptx', 'jpg', 'jpeg', 'png', 'gif', 'mp3', 'wav']; // Extensiones permitidas
+                    $allowedMimeTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/jpeg', 'image/png', 'image/gif', 'audio/mpeg', 'audio/wav']; // Tipos MIME permitidos
 
-                    // Verificar extensión permitida
                     if (!in_array($extension, $allowedExtensions)) {
                         echo "errortype";
                         return;
                     }
-                    // Verificar tipo MIME permitido
+
                     if (!in_array($type, $allowedMimeTypes)) {
                         echo "errortype";
                         return;
                     }
 
-                    $routeSave = '../../assets/doc/' . $nameFile;
+                    $routeBaseUser = '../../assets/doc/' . $_SESSION['user_id'] . '/';
+                    if (!file_exists($routeBaseUser)) {
+                        mkdir($routeBaseUser, 0777, true);
+                    }
+
+                    $routeSave = '../../assets/doc/'.$_SESSION['user_id'].'/'. $nameFile;
+                    if (file_exists($routeSave)) {
+                        $nameFile = $dateNumber.'_'.$nameFile;
+                        $routeSave = '../../assets/doc/'.$_SESSION['user_id'].'/'. $nameFile;
+                    }
                     move_uploaded_file($temp, $routeSave);
 
                     $insert = array(
@@ -206,7 +221,13 @@ function generateQR($data)
 
                     $name = 'qr_'.$_SESSION['user_id'].'_'.$companyid.'_'.$dateNumber;
                     $qrCode = new QrCode($urlfile);
-                    $qrCode->writeFile("../../assets/img/qr/{$name}.png");
+
+                    $routeBaseUser = '../../assets/img/qr/' . $_SESSION['user_id'] . '/';
+                    if (!file_exists($routeBaseUser)) {
+                        mkdir($routeBaseUser, 0777, true);
+                    }
+
+                    $qrCode->writeFile("../../assets/img/qr/{$_SESSION['user_id']}/{$name}.png");
 
                     $insert2 = array(
                         'name' => $data['title'],
@@ -243,7 +264,13 @@ function generateQR($data)
                 $companyreg = $bm->select("reg_company", "id = ".$companyid);
             
                 $qrCode = new QrCode($companyreg[0]['website']);
-                $qrCode->writeFile("../../assets/img/qr/{$name}.png");
+
+                $routeBaseUser = '../../assets/img/qr/' . $_SESSION['user_id'] . '/';
+                if (!file_exists($routeBaseUser)) {
+                    mkdir($routeBaseUser, 0777, true);
+                }
+
+                $qrCode->writeFile("../../assets/img/qr/{$_SESSION['user_id']}/{$name}.png");
 
                 $insert = array(
                     'name' => $data['title'],
@@ -397,7 +424,7 @@ function deleteQr($data){
         $qr = $bm->select("reg_qr", "id = ".$data['deleteid']);
         $qrarchive = $qr[0]['archive'];
 
-        $archive = "../../assets/img/qr/{$qrarchive}";
+        $archive = "../../assets/img/qr/{$qr[0]['id_user']}/{$qrarchive}";
         if (file_exists($archive)) {
             unlink($archive);
         }
@@ -405,7 +432,7 @@ function deleteQr($data){
         if($qr[0]['type'] == 'file'){
             $file = $bm->select("reg_archive", "id_qr = ".$data['deleteid']);
             $filearchive = $file[0]['archive'];
-            $archive = "../../assets/doc/{$filearchive}";
+            $archive = "../../assets/doc/{$_SESSION['user_id']}/{$filearchive}";
             if (file_exists($archive)) {
                 unlink($archive);
             }
@@ -607,13 +634,14 @@ function newfile($data) {
 
             $originalFileName = $_FILES['file']['name'];
             $extension = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
-            $nameFile = 'file_'.$_SESSION['user_id'].'_'.$companyid.'_'.$dateNumber.'.'.$extension;
+            //$nameFile = 'file_'.$_SESSION['user_id'].'_'.$companyid.'_'.$dateNumber.'.'.$extension;
+            $nameFile = $originalFileName;
             $type = $_FILES['file']['type'];
             //$size = $_FILES['file']['size'];
             $temp = $_FILES['file']['tmp_name'];
 
-            $allowedExtensions = ['pdf', 'doc', 'docx', 'txt', 'xlsx', 'rar', 'pptx', 'jpg', 'jpeg', 'png', 'gif']; // Extensiones permitidas
-            $allowedMimeTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/x-rar-compressed', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/jpeg', 'image/png', 'image/gif']; // Tipos MIME permitidos
+            $allowedExtensions = ['pdf', 'doc', 'docx', 'txt', 'xlsx', 'pptx', 'jpg', 'jpeg', 'png', 'gif', 'mp3', 'wav']; // Extensiones permitidas
+            $allowedMimeTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/jpeg', 'image/png', 'image/gif', 'audio/mpeg', 'audio/wav']; // Tipos MIME permitidos
 
             if (!in_array($extension, $allowedExtensions)) {
                 echo "errortype";
@@ -625,9 +653,17 @@ function newfile($data) {
                 return;
             }
 
-            $routeSave = '../../assets/doc/' . $nameFile;
-            move_uploaded_file($temp, $routeSave);
+            $routeBaseUser = '../../assets/doc/' . $_SESSION['user_id'] . '/';
+            if (!file_exists($routeBaseUser)) {
+                mkdir($routeBaseUser, 0777, true);
+            }
 
+            $routeSave = '../../assets/doc/'.$_SESSION['user_id'].'/'. $nameFile;
+            if (file_exists($routeSave)) {
+                $nameFile = $dateNumber.'_'.$nameFile;
+                $routeSave = '../../assets/doc/'.$_SESSION['user_id'].'/'. $nameFile;
+            }
+            move_uploaded_file($temp, $routeSave);
 
             $insert = array(
                 'name' => $data['title'],
@@ -659,7 +695,7 @@ function deletefile($data) {
         $file = $bm->select("reg_archive", "id = ".$id);
         $fileurl = $file[0]['archive'];
 
-        $archive = "../../assets/doc/{$fileurl}";
+        $archive = "../../assets/doc/{$_SESSION['user_id']}/{$fileurl}";
         if (file_exists($archive)) {
             unlink($archive);
         }

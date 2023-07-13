@@ -151,7 +151,7 @@ class BaseController
             }
         }
         $pdfFilePath = $pdfdata['archive'];
-        $pdfFilePath = BASEURL.'assets/doc/' . $pdfFilePath;
+        $pdfFilePath = BASEURL.'assets/doc/'.$pdfdata['id_user'].'/' . $pdfFilePath;
         require_once "./src/views/viewPdf.php";
     }
 
