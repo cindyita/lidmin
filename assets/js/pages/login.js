@@ -32,13 +32,13 @@ $(document).ready(function () {
                 if (res == 1) {
                     window.location.href = 'dashboard.php';
                 } else if (res == 2) {
-                    $('#error-login').html("Error: El captcha es inválido");
+                    $('#error-login').html("Error: El captcha es inválido. Actualiza la página y vuelve a intentarlo.");
                     $('#error-login').show();
                 } else if (res == 0) {
-                    $('#error-login').html("Error: El usuario y/o contraseña son incorrectos");
+                    $('#error-login').html("Error: El usuario y/o contraseña son incorrectos.");
                     $('#error-login').show();
                 } else {
-                    $('#error-login').html("Error: Hubo un error al iniciar sesión");
+                    $('#error-login').html("Error: Hubo un error al iniciar sesión.");
                     $('#error-login').show();
                     console.log(res);
                 }
