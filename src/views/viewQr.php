@@ -1,3 +1,10 @@
+<?php 
+    $colorHexadecimal = $company['primary_color'];
+    $colorfont = sscanf($colorHexadecimal, "#%02x%02x%02x");
+    $colorfont = 'rgba(' . $colorfont[0] . ',' . $colorfont[1] . ',' . $colorfont[2] . ',0.3)';
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,7 +19,7 @@
         header {
             background-color: <?php
             if ($company != 0) {
-                echo $company['primary_color'];
+                echo $colorfont;
             } elseif($setting != 0 && $company == 0) {
                 echo $setting['color_font'];
             }else{

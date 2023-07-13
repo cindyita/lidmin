@@ -11,6 +11,12 @@
             echo '<script>alert("Contraseña incorrecta");</script>';
         }
     }
+
+    $colorHexadecimal = $company['primary_color'];
+    $colorfont = sscanf($colorHexadecimal, "#%02x%02x%02x");
+    $colorfont = 'rgba(' . $colorfont[0] . ',' . $colorfont[1] . ',' . $colorfont[2] . ',0.3)';
+
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -26,7 +32,7 @@
         header {
             background-color: <?php
             if ($company != 0) {
-                echo $company['primary_color'];
+                echo $colorfont;
             } elseif($setting != 0 && $company == 0) {
                 echo $setting['color_font'];
             }else{
@@ -126,6 +132,7 @@
             <?php } else { ?>
 
                 <h2>El archivo tiene contraseña</h2>
+                <p><?php echo $filedata['archive']; ?></p>
                 <form method="post">
                     <div class="input-group mb-3">
                     <input type="password" class="form-control" placeholder="Ingresa la contraseña" name="pass" autocomplete="off" required>
