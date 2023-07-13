@@ -50,9 +50,6 @@
             <?php } ?>
         </header>
         <div class="content">
-            <?php if ($company != 0) { ?>
-                <p><?php echo $company['name']; ?></p>
-            <?php } ?>
             <h2><?php echo $qrdata['name']; ?></h2>
             <img src="./assets/img/qr/<?php echo $qrdata['archive']; ?>" />
             <div id="share-buttons">
