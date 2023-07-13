@@ -261,6 +261,8 @@ function saveSettings($data) {
         $nameLogo = NULL;
         $nameFavicon = NULL;
 
+        $existRegister = $bm->select("sys_setting", "id_user = ".$_SESSION['user_id']);
+
         if (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK) {
             $temp = $_FILES['logo']['tmp_name'];
 
@@ -277,6 +279,13 @@ function saveSettings($data) {
 
                 $routeSave = '../../assets/img/userapp/logo/' . $nameLogo;
                 move_uploaded_file($temp, $routeSave);
+            }
+
+            if(!empty($existRegister) && isset($existRegister[0]['logo'])) {
+                $archive = "../../assets/img/userapp/logo/{$existRegister[0]['logo']}";
+                if (file_exists($archive)) {
+                    unlink($archive);
+                }
             }
         }
 
@@ -297,20 +306,12 @@ function saveSettings($data) {
                 $routeSave = '../../assets/img/userapp/favicon/' . $nameFavicon;
                 move_uploaded_file($temp, $routeSave);
             }
-        }
 
-        $existRegister = $bm->select("sys_setting", "id_user = ".$_SESSION['user_id']);
-
-        if(!empty($existRegister) && isset($existRegister[0]['logo'])) {
-            $archive = "../../assets/img/userapp/logo/{$existRegister[0]['logo']}";
-            if (file_exists($archive)) {
-                unlink($archive);
-            }
-        }
-        if(!empty($existRegister) && isset($existRegister[0]['favicon'])) {
-            $archive = "../../assets/img/userapp/favicon/{$existRegister[0]['favicon']}";
-            if (file_exists($archive)) {
-                unlink($archive);
+            if(!empty($existRegister) && isset($existRegister[0]['favicon'])) {
+                $archive = "../../assets/img/userapp/favicon/{$existRegister[0]['favicon']}";
+                if (file_exists($archive)) {
+                    unlink($archive);
+                }
             }
         }
 
