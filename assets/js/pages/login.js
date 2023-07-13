@@ -9,6 +9,8 @@ $(document).ready(function () {
 
     $('#login').submit(function (event) {
 
+        $('#error-login').hide();
+
         /*----Función de recuerdame---*/
         if ($('#remember').is(':checked')) {
 
@@ -26,17 +28,19 @@ $(document).ready(function () {
             url: './src/controllers/actionController.php?action=login',
             type: 'POST',
             data: formData,
-            success: function(res) {
+            success: function (res) {
                 if (res == 1) {
                     window.location.href = 'dashboard.php';
-                }else if(res == 2){
-                    $('#error-captcha').show();
-                } else if(res == 0){
-                    console.log('Error login');
+                } else if (res == 2) {
+                    $('#error-login').html("Error: El captcha es inválido");
+                    $('#error-login').show();
+                } else if (res == 0) {
+                    $('#error-login').html("Error: El usuario y/o contraseña son incorrectos");
                     $('#error-login').show();
                 } else {
+                    $('#error-login').html("Error: Hubo un error al iniciar sesión");
+                    $('#error-login').show();
                     console.log(res);
-                    $('#error-fatal').show();
                 }
             },
             error: function(xhr, status, error) {

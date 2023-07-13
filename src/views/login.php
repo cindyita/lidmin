@@ -28,15 +28,7 @@
 
             <div>
                 <form method="post" id="login">
-                    <div class="alert-error" id="error-login">
-                        <strong>Error:</strong> El usuario y/o contraseña son incorrectos
-                    </div>
-                    <div class="alert-error" id="error-captcha">
-                        <strong>Error:</strong> El captcha es inválido
-                    </div>
-                    <div class="alert-error" id="error-fatal">
-                        <strong>Error:</strong> Hubo un error al iniciar sesión
-                    </div>
+                    <div class="alert-error" id="error-login"></div>
                     <div class="username">
                         <label for="username" class="form-label">Usuario</label><br>
                         <input type="text" class="form-control" id="username" placeholder="Ingresa tu nombre de usuario" name="username" maxlength="50" required>
