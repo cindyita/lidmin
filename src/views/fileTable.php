@@ -61,17 +61,16 @@ Layout::header('archivos',['./assets/css/pages/fileTable.css']);
                     <a href="<?php echo 'view.php?page=filepage&file=' . $value['id']; ?>" class="archive-card-content" target="_blank">
 
                         <span class="file-icon">
-                            <i class="fa-solid  
-                            <?php 
+                            <i class="fa-solid <?php 
                                 switch($value['type']){
                                     case "pdf":
                                         echo "fa-file-pdf";
                                     break;
                                     case "docx":
-                                        echo "fa-file-doc";
+                                        echo "fa-file-word";
                                     break;
                                     case "doc":
-                                        echo "fa-file-doc";
+                                        echo "fa-file-word";
                                     break;
                                     case "jpg":
                                         echo "fa-file-image";
@@ -95,8 +94,7 @@ Layout::header('archivos',['./assets/css/pages/fileTable.css']);
                                         echo "fa-file";
                                     break;
                                 }
-                            ?>
-                            "></i>
+                            ?>"></i>
                         </span>
                         <span class="title limit-lines"><?php echo $value['name']; ?></span>
                         <span class="subtitle limit-lines"><?php echo $value['archive']; ?></span>
