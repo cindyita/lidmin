@@ -8,6 +8,18 @@
     <link rel="stylesheet" href="./assets/css/app.css?upd=3" />
     <link rel="stylesheet" href="./assets/css/login.css?upd=3" />
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <!-----------ReCaptcha------------>
+    <script src='https://www.google.com/recaptcha/api.js?render=6LcVxR0nAAAAAFrJIgfTBJVTh0cI7FucX7wJcoIZ'> 
+    </script>
+    <script>
+        grecaptcha.ready(function() {
+        grecaptcha.execute('6LcVxR0nAAAAAFrJIgfTBJVTh0cI7FucX7wJcoIZ', {action: 'formulario'})
+        .then(function(token) {
+        var recaptchaResponse = document.getElementById('recaptchaResponse');
+        recaptchaResponse.value = token;
+        });});
+    </script>
+    <!-----------/ReCaptcha------------>
 </head>
 <body>
 
@@ -28,6 +40,9 @@
                     <div class="alert-error" id="error-login">
                         <strong>Error:</strong> El usuario y/o contraseña son incorrectos
                     </div>
+                    <div class="alert-error" id="error-captcha">
+                        <strong>Error:</strong> El captcha es inválido
+                    </div>
                     <div class="username">
                         <label for="username" class="form-label">Usuario</label><br>
                         <input type="text" class="form-control" id="username" placeholder="Ingresa tu nombre de usuario" name="username" maxlength="50" required>
@@ -41,6 +56,7 @@
                         <input class="form-check-input" type="checkbox" name="remember" id="remember"> Recuerdame
                         </label>
                     </div>
+                    <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
                     <button type="submit" class="btn btn-primary">Entrar</button>
                 </form>
             </div>

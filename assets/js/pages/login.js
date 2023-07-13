@@ -29,6 +29,8 @@ $(document).ready(function () {
             success: function(res) {
                 if (res == 1) {
                     window.location.href = 'dashboard.php';
+                }else if(res == 2){
+                    $('#error-captcha').show();
                 } else if(res == 0){
                     console.log('Error login');
                     $('#error-login').show();

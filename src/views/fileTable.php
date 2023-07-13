@@ -139,7 +139,7 @@ Layout::header('archivos',['./assets/css/pages/fileTable.css']);
                         <input type="hidden" name="id" id="id_pass">
                     </div>
                     <div>
-                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
+                        <button type="submit" class="btn btn-dark" data-bs-dismiss="modal">Guardar</button>
                     </div>
                 </form>
             </div>

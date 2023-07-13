@@ -14,7 +14,7 @@
 
     $colorHexadecimal = $company['primary_color'];
     $colorfont = sscanf($colorHexadecimal, "#%02x%02x%02x");
-    $colorfont = 'rgba(' . $colorfont[0] . ',' . $colorfont[1] . ',' . $colorfont[2] . ',0.3)';
+    $colorfont = 'rgba(' . $colorfont[0] . ',' . $colorfont[1] . ',' . $colorfont[2] . ',0.2)';
 
 
 ?>
