@@ -9,15 +9,15 @@
     <link rel="stylesheet" href="./assets/css/login.css?upd=3" />
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <!-----------ReCaptcha------------>
-    <script src='https://www.google.com/recaptcha/api.js?render=6LcVxR0nAAAAAFrJIgfTBJVTh0cI7FucX7wJcoIZ'> 
-    </script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script>
         grecaptcha.ready(function() {
-        grecaptcha.execute('6LcVxR0nAAAAAFrJIgfTBJVTh0cI7FucX7wJcoIZ', {action: 'formulario'})
-        .then(function(token) {
-        var recaptchaResponse = document.getElementById('recaptchaResponse');
-        recaptchaResponse.value = token;
-        });});
+            grecaptcha.execute('6LcVxR0nAAAAAFrJIgfTBJVTh0cI7FucX7wJcoIZ', {action: 'formulario'})
+            .then(function(token) {
+                var recaptchaResponse = document.getElementById('recaptchaResponse');
+                recaptchaResponse.value = token;
+            });
+        });
     </script>
     <!-----------/ReCaptcha------------>
 </head>
@@ -56,6 +56,7 @@
                         <input class="form-check-input" type="checkbox" name="remember" id="remember"> Recuerdame
                         </label>
                     </div>
+                    <div class="g-recaptcha" data-sitekey="your_site_key"></div>
                     <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
                     <button type="submit" class="btn btn-primary">Entrar</button>
                 </form>
