@@ -56,7 +56,7 @@
                         <input class="form-check-input" type="checkbox" name="remember" id="remember"> Recuerdame
                         </label>
                     </div>
-                    <div class="g-recaptcha" data-sitekey="your_site_key"></div>
+                    <div class="g-recaptcha" data-sitekey="6LcVxR0nAAAAAFrJIgfTBJVTh0cI7FucX7wJcoIZ"></div>
                     <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
                     <button type="submit" class="btn btn-primary">Entrar</button>
                 </form>
