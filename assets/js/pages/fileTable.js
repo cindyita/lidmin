@@ -42,7 +42,7 @@ $(document).ready(function () {
 
   });
 
-  //Limit Size Favicon
+  //Limit Size file
   fileup = $('#fileup');
   fileup.on('change', function() {
     var file = this.files[0];
@@ -63,18 +63,59 @@ $(document).ready(function () {
       var file = fileup[0].files[0];
       var formData = new FormData(this);
       formData.append('file', file);
-    } else {
-        var formData = new FormData(this);
-    }
 
-    $.ajax({
+      $('#progressBar-content').show();
+
+      const xhr = new XMLHttpRequest();
+
+      xhr.upload.addEventListener('progress', (event) => {
+        if (event.lengthComputable) {
+          const percentUploaded = (event.loaded / event.total) * 100;
+          //console.log('Porcentaje de subida: ' + percentUploaded + '%');
+          $('#progressBar').width(percentUploaded + '%');
+        }
+      });
+
+      xhr.open('POST', './src/controllers/actionController.php?action=fileCreate');
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          const res = xhr.responseText;
+          switch (res) {
+            case '1':
+              modalLoaderOut('newfile');
+              hideModal('newfile');
+              messageLoader('success', 'Se subió el nuevo archivo');
+              setTimeout(function() {
+                  window.location.reload();
+              }, 200);
+              break;
+            case 'errortype':
+              message('error', 'El tipo de archivo no está permitido');
+              break;
+            case '0':
+              message('error', 'Error al subir el archivo');
+            break;
+            default:
+              message('error', 'Algo salió mal');
+              console.log(res);
+            break;
+          }
+        } else {
+          console.error('Error en la solicitud. Código de estado: ' + xhr.status);
+        }
+      };
+
+      xhr.send(formData);
+
+    } else {
+      var formData = new FormData(this);
+      $.ajax({
         url: './src/controllers/actionController.php?action=fileCreate',
         type: 'POST',
         data: formData,
         processData: false,
         contentType: false, 
       success: function (res) {
-        console.log(res);
           switch (res) {
             case '1':
               modalLoaderOut('newfile');
@@ -100,6 +141,10 @@ $(document).ready(function () {
             console.error('Error en la solicitud. Código de estado: ' + xhr.status);
         }
     });
+
+    }
+
+    
   });
 
   $('#fileUpdateForm').submit(function (event) {
