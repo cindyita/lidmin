@@ -83,7 +83,7 @@
             opacity: 0.8;
         }
         .preview {
-            width: 300px;
+            width: 90%;
             text-align: center;
         }
         .preview:hover {
