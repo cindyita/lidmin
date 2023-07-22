@@ -143,8 +143,8 @@ Layout::header('archivos',['./assets/css/pages/fileTable.css']);
     /*---Create file---*/
     $companySelect = companySelect($company,"company");
     $modalContent = '<form id="fileCreateForm">
-                        <div class="progress" id="progressBar-content" style="display:none;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width:1%" id="progressBar"></div>
+                        <div class="progress py-2" id="progressBar-content" style="display:none;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width:1%" id="progressBar">1%</div>
                         </div>
                         <div class="mb-3 mt-3">
                             <input type="text" class="form-control" placeholder="Ingresa el titulo del archivo" name="title" autocomplete="off" value="" required>

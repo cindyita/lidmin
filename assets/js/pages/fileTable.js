@@ -73,6 +73,7 @@ $(document).ready(function () {
           const percentUploaded = (event.loaded / event.total) * 100;
           //console.log('Porcentaje de subida: ' + percentUploaded + '%');
           $('#progressBar').width(percentUploaded + '%');
+          $('#progressBar').html(percentUploaded + '%');
         }
       });
 

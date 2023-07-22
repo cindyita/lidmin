@@ -168,7 +168,8 @@ function hideModal(modal) {
  * @param {string} id - (Page) The ID of the item associated with the CRUD operation.
  * @param {string} crudMethod - The CRUD method (e.g., create, read, update, delete).
  */
-function sendForm(formData,id,crudMethod) {
+function sendForm(formData, id, crudMethod) {
+    modalLoaderIn(id + crudMethod + 'Modal');
     title = id.toUpperCase();
     
     switch (crudMethod) {
@@ -199,8 +200,8 @@ function sendForm(formData,id,crudMethod) {
         processData: false,
         contentType: false, 
         success: function (res) {
-            hideModal(id+crudMethod+'Modal');
             modalLoaderOut(id + crudMethod + 'Modal');
+            hideModal(id+crudMethod+'Modal');
             switch (res) {
                 case '1':
                     message('success', title + ' éxito en: ' + metodo);
