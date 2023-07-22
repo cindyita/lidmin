@@ -209,7 +209,7 @@ function sendForm(formData, id, crudMethod) {
                         messageLoader('success', title + ' éxito en: ' + metodo);
                         setTimeout(function() {
                             window.location.reload();
-                        }, 300);
+                        }, 500);
                     } else {
                         reloadTable(id+'ReadTable');
                     }

@@ -108,6 +108,8 @@ $(document).ready(function () {
       xhr.send(formData);
 
     } else {
+      message('error', 'Debes seleccionar un archivo para subir');
+      /*
       var formData = new FormData(this);
       $.ajax({
         url: './src/controllers/actionController.php?action=fileCreate',
@@ -140,7 +142,7 @@ $(document).ready(function () {
         error: function(xhr) {
             console.error('Error en la solicitud. Código de estado: ' + xhr.status);
         }
-    });
+    });*/
 
     }
 
@@ -166,7 +168,7 @@ $(document).ready(function () {
                   messageLoader('success', 'Se editó el archivo');
                   setTimeout(function() {
                       window.location.reload();
-                  }, 200);
+                  }, 500);
                   break;
                 default:
                   message('error', 'Algo salió mal');
@@ -216,7 +218,7 @@ function passwordDelete() {
               messageLoader('success', 'Se removió la contraseña');
               setTimeout(function() {
                   window.location.reload();
-              }, 300);
+              }, 500);
             break;
             default:
               message('error', 'Algo salió mal');
@@ -244,10 +246,10 @@ function fileDelete(idfile, idqr) {
       success: function (res) {
           switch (res) {
             case '1':
-              messageLoader('success', 'Se ha borrado el archivo');
+              //messageLoader('success', 'Se ha borrado el archivo');
               setTimeout(function() {
                   window.location.reload();
-              }, 200);
+              }, 100);
             break;
             default:
               message('error', 'Algo salió mal');

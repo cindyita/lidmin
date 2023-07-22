@@ -85,7 +85,7 @@ $(document).ready(function () {
 
               setTimeout(function() {
                     window.location.reload();
-                }, 400);
+                }, 500);
               
             break;
           }
@@ -110,7 +110,7 @@ function setdefault() {
               message('success', 'Se guardó la configuración correctamente. Actualizando...');
               setTimeout(function() {
                     window.location.reload();
-                }, 400);
+                }, 500);
             break;
             default:
               message('error', 'Algo salió mal');
