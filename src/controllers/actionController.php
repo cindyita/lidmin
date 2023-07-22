@@ -133,14 +133,14 @@ function login($data){
 
     try{
         // ReCaptcha
-        /*-------
+        /*-----------*/
         $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify'; 
         $recaptcha_secret = '6LcVxR0nAAAAAEsXfq83Av-3i-KALzwKclGK7vUQ'; 
         $recaptcha_response = $data['g-recaptcha-response']; 
         $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response); 
         $recaptcha = json_decode($recaptcha); 
 
-        if($recaptcha->success == true){----*/
+        if($recaptcha->success == true){
 
             $bm = new BaseModel();
             $user = $bm->select("sys_user", "username = '".$data['username']."'");
@@ -157,12 +157,12 @@ function login($data){
             }else{
                 echo 0;
             }
-        /*-----
+        /*-------*/
         } else {
 
             echo 2;
 
-        }--*/
+        }
         
     }catch(exception $e){
         echo json_encode('error: '.$e);
