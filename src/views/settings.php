@@ -78,8 +78,6 @@ if($data){
                     <input type="color" name="color_font2" id="color_font2" class="p-1" value="<?php echo $color_font2; ?>">
                 </div>
 
-                <p class="text-muted my-2">[Actualiza para ver los cambios en la interfaz]</p>
-
                 <button class="btn btn-dark" type="submit">Guardar</button>
             </div>
         </form>

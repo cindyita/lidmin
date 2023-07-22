@@ -19,6 +19,11 @@ Layout::header('dashboard',['./assets/css/pages/dashboard.css']);
             <span><i class="fa-solid fa-file"></i> <span id="qrcount"><?php echo $stats['file_count']; ?></span></span>
         </div>
 
+        <div class="info-card">
+            <div>Carpetas</div>
+            <span><i class="fa-solid fa-folder"></i> <span id="qrcount"><?php echo $stats['folder_count']; ?></span></span>
+        </div>
+
     </div>
     
     <br><br>

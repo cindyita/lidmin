@@ -278,7 +278,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before {
     background-color: var(--lightfont);
     color: var(--primary);
     padding: 20px;
-    width: 20%;
+    width: 15%;
     border-left: 15px solid var(--primary);
     font-size: 15pt;
 }
@@ -389,6 +389,9 @@ table.dataTable.table-striped>tbody>tr.odd>* {
     }
     .main .sidebar {
         width: 20%;
+    }
+    .info-card {
+        width: 25%;
     }
 }
 
