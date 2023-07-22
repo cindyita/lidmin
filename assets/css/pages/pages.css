@@ -12,10 +12,7 @@
     flex-direction: column;
     gap: 20px;
 }
-.content header img {
-    min-width: 15%;
-    max-width: 25%;
-}
+
 .content header h2 {
     color: var(--black);
 }
