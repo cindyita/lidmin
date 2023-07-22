@@ -25,7 +25,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo isset($setting['app_name']) && $setting['app_name'] ? $setting['app_name'] : 'LiDMIN'; ?> | CARPETA</title>
+    <title><?php echo isset($setting['app_name']) && $setting['app_name'] ? $setting['app_name'] : 'LiDMIN'; ?> | <?php echo $folderdata['name']; ?></title>
     <link rel="shortcut icon" href="<?php echo isset($setting['favicon']) && $setting['favicon'] ? './assets/img/userapp/favicon/'.$setting['favicon'] : './assets/img/system/favicon.png'; ?>" type="image/PNG">
     <link rel="stylesheet" href="./assets/css/app.css?upd=<?php echo VERSION; ?>">
     <link rel="stylesheet" href="./assets/css/pages/pages.css?upd=<?php echo VERSION; ?>">
