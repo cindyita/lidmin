@@ -163,7 +163,7 @@ Layout::header('archivos',['./assets/css/pages/fileTable.css']);
                         <div class="mb-3 mt-3">
                             <input type="password" placeholder="Ingresa la nueva contraseña" class="form-control" id="filepass" name="filepass" autocomplete="new-password" value="">
                         </div>
-                        <button type="submit" class="btn btn-dark" data-bs-dismiss="modal">Subir</button>
+                        <button type="submit" class="btn btn-dark">Subir</button>
                     </form>';
     modal('newfile', $modalContent, 'Subir archivo', '<i class="fa-solid fa-file"></i>');
     /*--Update file--*/
@@ -178,7 +178,7 @@ Layout::header('archivos',['./assets/css/pages/fileTable.css']);
                             '.$companySelect.'
                             <input type="hidden" name="id" id="id_edit">
                         </div>
-                        <button type="submit" class="btn btn-dark" data-bs-dismiss="modal">Editar</button>
+                        <button type="submit" class="btn btn-dark">Editar</button>
                     </form>';
     modal('fileUpdateModal', $modalContent, 'Subir archivo', '','filetitle');
     ?>

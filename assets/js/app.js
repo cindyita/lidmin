@@ -59,12 +59,13 @@ function message(type, text) {
  * @param {string} text - The text of the message to be displayed.
  */
 function messageLoader(type, text) {
-    var alertClass = (type === 'success') ? 'alert-success' : 'alert-danger';
-    var typeText = (type === 'success') ? 'Éxito' : 'Error';
+    var alertClass = (type === 'success') ? 'alert-success' : (type === 'danger' ? 'alert-danger' : 'alert-'+type);
+    var typeText = (type === 'success') ? 'Éxito' : (type === 'danger' ? 'Error' : '');
+    var loading = (type === 'success' || type === 'danger') ? '. Actualizando..' : '';
 
     var html = '<div class="alert ' + alertClass + ' alert-dismissible" id="message">';
     html += '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
-    html += '<strong>' + typeText + '</strong> ' + text + '. Actualizando.. <div class="spinner-border spinner-border-sm text-'+type+'"></div>';
+    html += '<strong>' + typeText + '</strong> ' + text + loading +' <div class="spinner-border spinner-border-sm text-'+type+'"></div>';
     html += '</div>';
 
     var $message = $(html);
@@ -199,7 +200,7 @@ function sendForm(formData,id,crudMethod) {
         contentType: false, 
         success: function (res) {
             hideModal(id+crudMethod+'Modal');
-            modalLoaderOut(id+crudMethod+'Modal');
+            modalLoaderOut(id + crudMethod + 'Modal');
             switch (res) {
                 case '1':
                     message('success', title + ' éxito en: ' + metodo);
@@ -207,7 +208,7 @@ function sendForm(formData,id,crudMethod) {
                         messageLoader('success', title + ' éxito en: ' + metodo);
                         setTimeout(function() {
                             window.location.reload();
-                        }, 600);
+                        }, 300);
                     } else {
                         reloadTable(id+'ReadTable');
                     }

@@ -148,10 +148,10 @@ function passwordDelete() {
       success: function (res) {
           switch (res) {
             case '1':
-              messageLoader('success', 'Se removió la contraseña');
-              setTimeout(function() {
-                  window.location.reload();
-              }, 700);
+                messageLoader('success', 'Se removió la contraseña');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 300);
             break;
             default:
               message('error', 'Algo salió mal');

@@ -56,6 +56,7 @@ $(document).ready(function () {
   });
 
   $('#fileCreateForm').submit(function (event) {
+    modalLoaderIn('newfile');
     event.preventDefault();
 
     if (fileup[0].files[0]) {
@@ -76,10 +77,12 @@ $(document).ready(function () {
         console.log(res);
           switch (res) {
             case '1':
+              modalLoaderOut('newfile');
+              hideModal('newfile');
               messageLoader('success', 'Se subió el nuevo archivo');
               setTimeout(function() {
                   window.location.reload();
-              }, 700);
+              }, 200);
               break;
             case 'errortype':
               message('error', 'El tipo de archivo no está permitido');
@@ -99,7 +102,8 @@ $(document).ready(function () {
     });
   });
 
-    $('#fileUpdateForm').submit(function (event) {
+  $('#fileUpdateForm').submit(function (event) {
+      modalLoaderIn('fileUpdateModal');
         event.preventDefault();
         var formData = new FormData(this);
 
@@ -112,10 +116,12 @@ $(document).ready(function () {
           success: function (res) {
               switch (res) {
                 case '1':
+                  modalLoaderOut('fileUpdateModal');
+                  hideModal('fileUpdateModal');
                   messageLoader('success', 'Se editó el archivo');
                   setTimeout(function() {
                       window.location.reload();
-                  }, 700);
+                  }, 200);
                   break;
                 default:
                   message('error', 'Algo salió mal');
@@ -165,7 +171,7 @@ function passwordDelete() {
               messageLoader('success', 'Se removió la contraseña');
               setTimeout(function() {
                   window.location.reload();
-              }, 700);
+              }, 300);
             break;
             default:
               message('error', 'Algo salió mal');
@@ -183,7 +189,8 @@ function fileDelete(idfile, idqr) {
   if (idqr) {
     message('error', 'No se puede eliminar un archivo enlazado a un QR, elimina el registro del QR para eliminar este archivo');
     return;
-    }
+  }
+  messageLoader('warning', 'Borrando archivo..');
   
     $.ajax({
         url: './src/controllers/actionController.php?action=fileDelete',
@@ -192,10 +199,10 @@ function fileDelete(idfile, idqr) {
       success: function (res) {
           switch (res) {
             case '1':
-              messageLoader('success', 'Se borró el archivo');
+              messageLoader('success', 'Se ha borrado el archivo');
               setTimeout(function() {
                   window.location.reload();
-              }, 700);
+              }, 200);
             break;
             default:
               message('error', 'Algo salió mal');
