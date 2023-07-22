@@ -90,7 +90,7 @@
             opacity: 0.8;
         }
         .preview img {
-            max-width: 70%;
+            max-width: 80%;
         }
         @media (max-width: 1024px){
             .preview img {

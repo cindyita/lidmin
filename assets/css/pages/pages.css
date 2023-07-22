@@ -24,9 +24,11 @@
     padding: 4%;
     gap: 30px;
 }
+/*
 .content .content img {
     max-width: 50%;
 }
+*/
 .content .content #share-buttons a {
     font-size: 15pt;
     margin-left:4px;
