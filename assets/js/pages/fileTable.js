@@ -2,7 +2,7 @@
 $(document).ready(function () {
   // Search file
   const searchInput = $('#search-file');
-  const archiveCards = $('.archive-card-content');
+  const archiveCards = $('.archive-card');
 
   searchInput.on('input', function() {
     const searchText = searchInput.val().toLowerCase();
