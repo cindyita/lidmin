@@ -71,9 +71,8 @@ $(document).ready(function () {
       xhr.upload.addEventListener('progress', (event) => {
         if (event.lengthComputable) {
           const percentUploaded = (event.loaded / event.total) * 100;
-          //console.log('Porcentaje de subida: ' + percentUploaded + '%');
           $('#progressBar').width(percentUploaded + '%');
-          $('#progressBar').html(percentUploaded + '%');
+          $('#progressBar').html(Math.round(percentUploaded) + '%');
         }
       });
 
