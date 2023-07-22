@@ -4,10 +4,11 @@ $(document).ready(function () {
   logoInput = $('#logo');
   logoInput.on('change', function() {
       var file = this.files[0];
-      var maxSize = 5 * 1024 * 1024; // 5MB
+      var limit = $("#limit_size_files").val() ? $("#limit_size_files").val() : 5;
+      var maxSize = limit * 1024 * 1024;
 
       if (file.size > maxSize) {
-          alert('El archivo excede el tamaño máximo permitido (5MB)');
+          alert('El archivo excede el tamaño máximo permitido ('+limit+'MB)');
           $(this).val('');
       }
   });
@@ -16,10 +17,11 @@ $(document).ready(function () {
   faviconInput = $('#favicon');
   faviconInput.on('change', function() {
       var file = this.files[0];
-      var maxSize = 1 * 1024 * 1024; // 1MB
+      var limit = $("#limit_size_files").val() ? $("#limit_size_files").val() : 5;
+      var maxSize = limit * 1024 * 1024;
 
       if (file.size > maxSize) {
-          alert('El archivo excede el tamaño máximo permitido (1MB)');
+          alert('El archivo excede el tamaño máximo permitido ('+limit+'MB)');
           $(this).val('');
       }
   });

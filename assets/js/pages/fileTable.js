@@ -45,11 +45,12 @@ $(document).ready(function () {
   //Limit Size Favicon
   fileup = $('#fileup');
   fileup.on('change', function() {
-      var file = this.files[0];
-      var maxSize = 5 * 1024 * 1024; // 5MB
+    var file = this.files[0];
+    var limit = $("#limit_size_files").val() ? $("#limit_size_files").val() : 5;
+    var maxSize = limit * 1024 * 1024;
 
       if (file.size > maxSize) {
-          alert('El archivo excede el tamaño máximo permitido (5MB)');
+          alert('El archivo excede el tamaño máximo permitido ('+limit+'MB)');
           $(this).val('');
       }
   });

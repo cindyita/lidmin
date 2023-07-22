@@ -153,15 +153,14 @@ function login($data){
                 $_SESSION['last_name'] = $user['last_name'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['email'] = $user['email'];
+                $_SESSION['limit_size_files'] = $user['limit_size_files'];
                 echo 1;
             }else{
                 echo 0;
             }
         /*-------*/
         } else {
-
             echo 2;
-
         }
         
     }catch(exception $e){

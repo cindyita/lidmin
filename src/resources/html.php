@@ -1,5 +1,6 @@
-<?php 
+<?php
 
+echo '<input type="hidden" id="limit_size_files" value="'.$_SESSION['limit_size_files'].'">';
 /**
  * Generates a Bootstrap modal HTML markup with customizable content.
  *
