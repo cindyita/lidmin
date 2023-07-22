@@ -90,7 +90,12 @@
             opacity: 0.8;
         }
         .preview img {
-            max-width: 100% !important;
+            max-width: 70%;
+        }
+        @media (max-width: 1024px){
+            .preview img {
+                max-width: 100%;
+            }
         }
     </style>
 </head>
@@ -108,11 +113,14 @@
         <div class="content">
             <?php if ($lockFile) { ?>
 
-                <h2><?php echo $filedata['name']; ?></h2>
+                <h3><?php echo $filedata['name']; ?></h3>
                 <p><?php echo $filedata['archive']; ?></p>
+                <a href="<?php echo BASEURL . 'assets/doc/'.$filedata['id_user'].'/'. $filedata['archive']; ?>" download>
+                    <button class="btn-pdf">Descargar <i class="fa-solid fa-download"></i></button>
+                </a>
                 <?php if ($filedata['type'] == 'jpg' || $filedata['type'] == 'png' || $filedata['type'] == 'jpeg') { ?>
                     <a href="<?php echo BASEURL.'assets/doc/'.$filedata['id_user'].'/'.$filedata['archive']; ?>" class="preview" target="_blank">
-                        <img src="./assets/doc/<?php echo $filedata['id_user'].'/'.$filedata['archive']; ?>" alt="preview img" width="100%">
+                        <img src="./assets/doc/<?php echo $filedata['id_user'].'/'.$filedata['archive']; ?>" alt="preview img">
                     </a>
                 <?php } ?>
                 <?php if ($filedata['type'] == 'pdf') { ?>
@@ -121,9 +129,7 @@
                         <button class="btn-pdf" type="submit">Ver PDF <i class="fa-solid fa-eye"></i></button>
                     </form>
                 <?php } ?>
-                <a href="<?php echo BASEURL . 'assets/doc/'.$filedata['id_user'].'/'. $filedata['archive']; ?>" download>
-                    <button class="btn-pdf">Descargar archivo <i class="fa-solid fa-download"></i></button>
-                </a>
+                
                 <div id="share-buttons">
                     Compartir: 
                     <a class="share-button" id="facebook-share"><i class="fa-brands fa-facebook"></i></a>
