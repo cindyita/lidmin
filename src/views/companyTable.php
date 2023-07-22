@@ -4,7 +4,7 @@ Layout::header('empresas');
     <div id="messages"></div>
     <div class="d-flex justify-content-between">
         <h4>Empresas</h4>
-        <a data-bs-toggle="modal" data-bs-target="#createCompany"><button class="btn btn-warning">Nueva empresa</button></a>
+        <a data-bs-toggle="modal" data-bs-target="#companyCreateModal"><button class="btn btn-warning">Nueva empresa</button></a>
     </div>
 
     <div class="datatable">
@@ -12,6 +12,7 @@ Layout::header('empresas');
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th>Fila</th>
                     <th>id</th>
                     <th>Logo</th>
                     <th>Nombre</th>
@@ -19,12 +20,13 @@ Layout::header('empresas');
                     <th>Email</th>
                     <th>Teléfono</th>
                     <th>Color</th>
-                    <th>creado</th>
+                    <th>Creado</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
+                    <th>Fila</th>
                     <th>id</th>
                     <th>Logo</th>
                     <th>Nombre</th>
@@ -32,16 +34,19 @@ Layout::header('empresas');
                     <th>Email</th>
                     <th>Teléfono</th>
                     <th>Color</th>
-                    <th>creado</th>
+                    <th>Creado</th>
                     <th>Acciones</th>
                 </tr>
             </tfoot>
             <tbody>
 
             <?php if ($data) {
-                foreach ($data as $key => $value) { ?>
+                $count = 0;
+                foreach ($data as $key => $value) {
+                    $count++; ?>
             
                 <tr>
+                    <td><?php echo $count; ?></td>
                     <td><?php echo $value['id']; ?></td>
                     <td><img src="./assets/img/company/<?php echo $value['logo']; ?>" width="auto" height="40px"></td>
                     <td><?php echo $value['name']; ?></td>
@@ -51,17 +56,12 @@ Layout::header('empresas');
                     <td><span style="background-color:<?php echo $value['primary_color']; ?>"><?php echo $value['primary_color']; ?></span></td>
                     <td><?php echo date('Y-m-d', strtotime($value['timestamp_create'])); ?></td>
                     <td>
-                        <a data-bs-toggle="modal" data-bs-target="#editCompany" onclick="editCompany(<?php echo $value['id']; ?>);">
-                            <button class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></i></button>
-                        </a>
-                        <a data-bs-toggle="modal" data-bs-target="#deleteCompany" onclick="deleteCompany(<?php echo $value['id']; ?>);">
-                            <button class="btn btn-danger"><i class="fa-solid fa-trash"></i></i></button>
-                        </a>
-                        
+                        <?php echo btnActions($value['id'],'company',["update", "delete"]); ?>
                     </td>
                 </tr>
+
             <?php }
-            } ?>
+                } ?>
 
             </tbody>
         </table>
@@ -69,20 +69,8 @@ Layout::header('empresas');
 
     <!-----------MODALS------------>
     <!----Modal create---->
-    <div class="modal fade" id="createCompany">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h4 class="modal-title">Registrar empresa</h4>
-                    <button type="button" class="close-modal" data-bs-dismiss="modal">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <form id="createCompanyForm">
+    <?php
+    $modalContent = '<form id="createCompanyForm">
                         <div class="mb-3">
                             <label for="name" class="form-label">Nombre:</label>
                             <input type="text" class="form-control" id="name" placeholder="Ingresa el nombre de la empresa" name="name" required>
@@ -108,27 +96,13 @@ Layout::header('empresas');
                             <input type="tel" class="form-control" id="tel" placeholder="Ingresa el teléfono de la empresa" name="tel">
                         </div>
                         <button type="submit" data-bs-dismiss="modal" class="btn btn-dark">Registrar</button>
-                    </form>
-                </div>
+                    </form>';
+    modal('companyCreateModal', $modalContent, 'Registrar empresa', '<i class="fa-solid fa-building"></i>');
+    ?>
 
-            </div>
-        </div>
-    </div>
     <!----Modal edit---->
-    <div class="modal fade" id="editCompany">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h4 class="modal-title">Editar empresa</h4>
-                    <button type="button" class="close-modal" data-bs-dismiss="modal">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <form id="editCompanyForm">
+    <?php
+    $modalContent = '<form id="companyUpdateForm">
                         <div class="mb-3">
                             <label for="name" class="form-label">Nombre:</label>
                             <input type="text" class="form-control" id="name_edit" placeholder="Ingresa el nombre de la empresa" name="name" required>
@@ -155,38 +129,20 @@ Layout::header('empresas');
                             <label for="tel" class="form-label">Teléfono: (Opcional)</label>
                             <input type="tel" class="form-control" id="tel_edit" placeholder="Ingresa el teléfono de la empresa" name="tel">
                         </div>
-                        <input type="hidden" name="companyid" id="companyid">
+                        <input type="hidden" name="companyUpdateId" id="companyUpdateId">
                         <button type="submit" data-bs-dismiss="modal" class="btn btn-dark">Editar</button>
-                    </form>
-                </div>
-
-            </div>
-        </div>
-    </div>
+                    </form>';
+    modal('companyUpdateModal', $modalContent, 'Editar empresa', '');
+    ?>
     <!---Modal delete--->
-    <div class="modal fade" id="deleteCompany">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h4 class="modal-title">¿Quieres eliminar el registro de empresa  <span id="deleteCompanyid">1</span>?</h4>
-                    <button type="button" class="close-modal" data-bs-dismiss="modal">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <form id="deleteCompanyForm">
-                        <input type="hidden" name="deleteid" id="deleteid">
+    <?php
+    $modalContent = '<form id="companyDeleteForm">
+                        <input type="hidden" name="companyDeleteId" id="companyDeleteId">
                         <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Eliminar</button>
-                    </form>
-                </div>
-
-            </div>
-        </div>
-    </div>
+                    </form>';
+    modal('companyDeleteModal', $modalContent, 'Se eliminará el registro de empresa: ', '','companyDeleteIdText');
+    ?>
 
 
 <?php
-Layout::footer(['./assets/js/pages/companyTable.js?upd=1']);
+Layout::footer(['./assets/js/pages/companyTable.js']);

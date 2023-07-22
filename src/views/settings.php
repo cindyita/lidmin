@@ -85,27 +85,20 @@ if($data){
         </form>
     </div>
 
+    <div class="py-5">
+        <hr>
+        <h5>Creditos</h5>
+        <p class="text-muted">LiDMIN v<?php echo VERSION; ?> Creado por VirtualBlux</p>
+    </div>
+
     <!----Modals----->
     <!-- Modal set default -->
-    <div class="modal fade" id="setdefault">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+    <?php
+    $modalContent = '<h6>(Se eliminará el logo y favicon subido)</h6>
+                    <button class="btn btn-danger" onclick="setdefault()" data-bs-dismiss="modal">Aceptar</button>';
+    modal('setdefault', $modalContent, '¿Quiéres volver a la configuración default?');
+    ?>
 
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">¿Quiéres volver a la configuración default?</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body">
-                <h6>(Se eliminará el logo y favicon subido)</h6>
-                <button class="btn btn-danger" onclick="setdefault()" data-bs-dismiss="modal">Aceptar</button>
-            </div>
-
-        </div>
-    </div>
-    </div>
 
 <?php
-Layout::footer(['./assets/js/pages/settings.js?upd=2']);
+Layout::footer(['./assets/js/pages/settings.js']);

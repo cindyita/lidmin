@@ -33,7 +33,7 @@
             overflow: hidden;
             font-family:'raleway',sans-serif;
         }
-        #pdf-container {
+        #pdf-content {
             width: 100%;
             height: 100%;
         }
@@ -69,7 +69,7 @@
 <body>
     <?php if ($lockFile) { ?>
     
-            <div id="pdf-container">
+            <div id="pdf-content">
                 <embed src="<?php echo $pdfFilePath; ?>" width="100%" height="100%" type="application/pdf">
             </div>
 

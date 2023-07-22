@@ -1,6 +1,6 @@
 $(document).ready(function () {
     
-    /*--Recordar login--*/
+    /*--remember login--*/
     if (localStorage.getItem('rememberedUsername')) {
         $('#username').val(localStorage.getItem('rememberedUsername'));
         $('#remember').prop('checked', true);
@@ -11,7 +11,7 @@ $(document).ready(function () {
 
         $('#error-login').hide();
 
-        /*----Función de recuerdame---*/
+        /*----Remember me---*/
         if ($('#remember').is(':checked')) {
 
         localStorage.setItem('rememberedUsername', $('#username').val());

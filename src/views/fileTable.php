@@ -12,7 +12,7 @@ Layout::header('archivos',['./assets/css/pages/fileTable.css']);
         <input class="form-control" type="search" name="search-file" id="search-file" placeholder="Buscar archivo...">
     </div>
 
-    <div class="archive-content" id="archives">
+    <div class="archive-content pb-5" id="archives">
 
         <?php if ($files) {
             foreach ($files as $key => $value) { ?>
@@ -37,20 +37,19 @@ Layout::header('archivos',['./assets/css/pages/fileTable.css']);
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item text-dark" href="#" data-bs-toggle="modal" data-bs-target="#editfile" onclick="modalEditFile(<?php echo $value['id'].', \''.$value['name'].'\','.$value['id_company']; ?>)">
+                                <a class="dropdown-item text-dark" href="#" data-bs-toggle="modal" data-bs-target="#fileUpdateModal" onclick="updateModalData(<?php echo $value['id'].', \''.$value['name'].'\','.$value['id_company']; ?>)">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                     Editar
                                 </a>
-
                             </li>
                             <li>
-                                <a class="dropdown-item text-warning" href="#" data-bs-toggle="modal" data-bs-target="#addpassword" onclick="modalAddPass(<?php echo $value['id'] . ', \'' . $value['password'] . '\''; ?>)">
+                                <a class="dropdown-item text-warning" href="#" data-bs-toggle="modal" data-bs-target="#createPasswordModal" onclick="passwordCreateModalData(<?php echo $value['id'] . ', \'' . $value['password'] . '\''; ?>)">
                                     <i class="fa-solid fa-key"></i>
                                     Contraseña
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item <?php echo (!$value['id_qr'] ? "text-danger" : "text-muted"); ?>" href="#" onclick="deletefile(<?php echo $value['id'].','.$value['id_qr']; ?>)">
+                                <a class="dropdown-item <?php echo (!$value['id_qr'] ? "text-danger" : "text-muted"); ?>" href="#" onclick="fileDelete(<?php echo $value['id'].','.$value['id_qr']; ?>)">
                                     <i class="fa-solid fa-trash"></i>
                                     Eliminar
                                 </a>
@@ -121,56 +120,29 @@ Layout::header('archivos',['./assets/css/pages/fileTable.css']);
 
     </div>
 
-    <br><br><br><br>
-
     <!-----Modals------>
-    <!-- Contraseña -->
-    <div class="modal fade" id="addpassword">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h4 class="modal-title"><i class="fa-solid fa-key"></i> Nueva contraseña</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <div class="modal-body">
-                <form id="addpasswordForm">
-                    <div class="mb-3 mt-3">
-                        <p class="d-flex justify-content-between">
-                            <span>
-                                <strong>Contraseña actual: </strong>
-                                <span id="actualPass" class="text-primary"></span>
-                            </span>
-                            <a class="btn btn-danger btn-sm ms-2" onclick="removepassword()" data-bs-dismiss="modal">Remover</a>
-                        </p>
-                        <input type="password" class="form-control" id="pass" placeholder="Ingresa la nueva contraseña" name="pass">
-                        <input type="hidden" name="id" id="id_pass">
-                    </div>
-                    <div>
-                        <button type="submit" class="btn btn-dark" data-bs-dismiss="modal">Guardar</button>
-                    </div>
-                </form>
-            </div>
-
-        </div>
-    </div>
-    </div>
-    <!-------------->
-    <!-- Nuevo archivo -->
-    <div class="modal fade" id="newfile">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Subir archivo</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <form id="newfileForm">
+    <?php
+    /*---Password---*/
+    $modalContent = '<form id="createPasswordForm">
+                        <div class="mb-3 mt-3">
+                            <p class="d-flex justify-content-between">
+                                <span>
+                                    <strong>Contraseña actual: </strong>
+                                    <span id="actualPass" class="text-primary"></span>
+                                </span>
+                                <a class="btn btn-danger btn-sm ms-2" onclick="passwordDelete()" data-bs-dismiss="modal">Remover</a>
+                            </p>
+                            <input type="password" class="form-control" id="pass" placeholder="Ingresa la nueva contraseña" name="pass">
+                            <input type="hidden" name="id" id="id_pass">
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-dark" data-bs-dismiss="modal">Guardar</button>
+                        </div>
+                    </form>';
+    modal('createPasswordModal', $modalContent, 'Nueva contraseña', '<i class="fa-solid fa-key"></i>');
+    /*---Create file---*/
+    $companySelect = companySelect($company,"company");
+    $modalContent = '<form id="fileCreateForm">
                         <div class="mb-3 mt-3">
                             <input type="text" class="form-control" placeholder="Ingresa el titulo del archivo" name="title" autocomplete="off" value="" required>
                         </div>
@@ -179,12 +151,7 @@ Layout::header('archivos',['./assets/css/pages/fileTable.css']);
                         </div>
                         <div class="mb-3 mt-3">
                             <label for="company">Empresa asociada</label>
-                            <select class="form-select" id="company" name="company" required>
-                                <option value="0" selected>Ninguna</option>
-                                <?php foreach ($company as $key => $value) { ?>
-                                    <option value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>
-                                <?php } ?>
-                            </select>
+                            '.$companySelect.'
                         </div>
                         <div class="form-check mb-3">
                             <label class="form-check-label">
@@ -197,50 +164,25 @@ Layout::header('archivos',['./assets/css/pages/fileTable.css']);
                             <input type="password" placeholder="Ingresa la nueva contraseña" class="form-control" id="filepass" name="filepass" autocomplete="new-password" value="">
                         </div>
                         <button type="submit" class="btn btn-dark" data-bs-dismiss="modal">Subir</button>
-                    </form>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!-------------->
-    <!----Modal edit---->
-    <div class="modal fade" id="editfile">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h4 class="modal-title">Editar Archivo: <span id="filetitle"></span></h4>
-                    <button type="button" class="close-modal" data-bs-dismiss="modal">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <form id="editFileForm">
+                    </form>';
+    modal('newfile', $modalContent, 'Subir archivo', '<i class="fa-solid fa-file"></i>');
+    /*--Update file--*/
+    $companySelect = companySelect($company,"companyUpdate");
+    $modalContent = '<form id="fileUpdateForm">
                         <div class="mb-3">
                             <label for="title" class="form-label">Titulo:</label>
                             <input type="text" class="form-control" id="title_edit" placeholder="Ingresa un titulo del archivo" name="title">
                         </div>
                         <div class="mb-3 mt-3">
                             <label for="company" class="form-label">Empresa asociada:</label>
-                            <select class="form-select" id="company_edit" name="company">
-                                <option value="NULL">Ninguna</option>
-                                <?php foreach ($company as $key => $value) { ?>
-                                    <option value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>
-                                <?php } ?>
-                            </select>
+                            '.$companySelect.'
                             <input type="hidden" name="id" id="id_edit">
                         </div>
                         <button type="submit" class="btn btn-dark" data-bs-dismiss="modal">Editar</button>
-                    </form>
-                </div>
-
-            </div>
-        </div>
-    </div>
+                    </form>';
+    modal('fileUpdateModal', $modalContent, 'Subir archivo', '','filetitle');
+    ?>
     <!-------------->
         
 <?php
-Layout::footer(['./assets/js/pages/fileTable.js?upd=4']);
+Layout::footer(['./assets/js/pages/fileTable.js']);

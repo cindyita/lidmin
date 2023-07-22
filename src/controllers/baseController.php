@@ -56,10 +56,35 @@ class BaseController
     public static function dashboard()
     {
         BaseController::checkSession();
-        $data = new BaseModel();
-        $company = $data->select("reg_company", "id_user = ".$_SESSION['user_id']);
-        $stats = $data->select("vw_statistics", "id_user = ".$_SESSION['user_id']);
+        $bd = new BaseModel();
+        //$company = $bd->select("reg_company", "id_user = ".$_SESSION['user_id']);
+        $stats = $bd->select("vw_statistics", "id_user = ".$_SESSION['user_id']);
         $stats = $stats[0];
+
+        $data = $bd->query("SELECT 'qr' AS type,'<i class=\"fa-solid fa-qrcode\"></i>' AS icon, q.id, q.name, c.name AS company, q.timestamp_create 
+        FROM reg_qr q 
+        LEFT JOIN reg_company c ON q.id_company = c.id 
+        WHERE q.id_user = :id_user 
+        UNION 
+        SELECT 'link' AS type,'<i class=\"fa-solid fa-link\"></i>' AS icon, q.id, q.name, c.name AS company, q.timestamp_create 
+        FROM reg_link q 
+        LEFT JOIN reg_company c ON q.id_company = c.id 
+        WHERE q.id_user = :id_user 
+        UNION 
+        SELECT 'archive' AS type,'<i class=\"fa-solid fa-file\"></i>' AS icon, q.id, q.name, c.name AS company, q.timestamp_create 
+        FROM reg_archive q 
+        LEFT JOIN reg_company c ON q.id_company = c.id 
+        WHERE q.id_user = :id_user 
+        UNION 
+        SELECT 'folder' AS type,'<i class=\"fa-solid fa-folder\"></i>' AS icon, q.id, q.name, c.name AS company, q.timestamp_create 
+        FROM reg_folder q 
+        LEFT JOIN reg_company c ON q.id_company = c.id 
+        WHERE q.id_user = :id_user 
+        ORDER BY timestamp_create DESC 
+        LIMIT 10
+    ", array(":id_user" => $_SESSION['user_id']));
+
+
         require_once "src/views/dashboard.php";
     }
 
@@ -106,6 +131,30 @@ class BaseController
         $company = $bd->select("reg_company", "id_user = ".$_SESSION['user_id']);
 
         require_once "./src/views/fileTable.php";
+    }
+
+    /**
+     * Muestra la tabla de enlaces
+     */
+    public static function linkTable()
+    {
+        BaseController::checkSession();
+        $bd = new BaseModel();
+        $data = $bd->query("SELECT q.id, q.name, q.url, q.id_company, c.name AS company, q.timestamp_create FROM reg_link q LEFT JOIN reg_company c ON q.id_company = c.id WHERE q.id_user = :id_user", array(":id_user" => $_SESSION['user_id']));
+        $company = $bd->select("reg_company", "id_user = ".$_SESSION['user_id']);
+        require_once "./src/views/linkTable.php";
+    }
+
+    /**
+     * Muestra la tabla de carpetas
+     */
+    public static function folderTable()
+    {
+        BaseController::checkSession();
+        $bd = new BaseModel();
+        $data = $bd->query("SELECT q.id, q.name, q.description, q.id_company,q.password, c.name AS company, q.timestamp_create FROM reg_folder q LEFT JOIN reg_company c ON q.id_company = c.id WHERE q.id_user = :id_user", array(":id_user" => $_SESSION['user_id']));
+        $company = $bd->select("reg_company", "id_user = ".$_SESSION['user_id']);
+        require_once "./src/views/folderTable.php";
     }
 
     /**
@@ -211,6 +260,72 @@ class BaseController
             }
         }
         require_once "./src/views/filePage.php";
+    }
+
+    /**
+     * Muestra la página de Carpeta
+     */
+    public static function folderPage($folder)
+    {   
+        $data = new BaseModel();
+        $folderdata = $data->select("reg_folder", "id = ".$folder);
+        if(!$folderdata){
+            echo "Esta página ya no está disponible";
+            exit;
+        }
+
+        $folderitems = $data->query("SELECT 
+                f.type AS typeItem, 
+                CASE f.type
+                    WHEN 'qr' THEN qr.id
+                    WHEN 'link' THEN link.id
+                    WHEN 'archive' THEN archive.id
+                END AS id,
+                CASE f.type
+                    WHEN 'qr' THEN qr.name
+                    WHEN 'link' THEN link.name
+                    WHEN 'archive' THEN archive.name
+                END AS name,
+                CASE f.type
+                    WHEN 'qr' THEN qr.type
+                    WHEN 'archive' THEN archive.type
+                END AS type,
+                CASE f.type
+                    WHEN 'archive' THEN archive.password
+                END AS password,
+                CASE f.type
+                    WHEN 'qr' THEN qr.archive
+                    WHEN 'archive' THEN archive.archive
+                END AS archive,
+                CASE f.type
+                    WHEN 'qr' THEN qr.destination
+                    WHEN 'link' THEN link.url
+                END AS destination
+            FROM rel_folder_files f
+            LEFT JOIN reg_qr qr ON f.type = 'qr' AND f.id_item = qr.id
+            LEFT JOIN reg_link link ON f.type = 'link' AND f.id_item = link.id
+            LEFT JOIN reg_archive archive ON f.type = 'archive' AND f.id_item = archive.id
+            WHERE f.id_folder = :id_folder;
+            ", array(":id_folder" => $folder));
+
+        $folderdata = $folderdata[0];
+
+        if($folderdata['id_company']){
+            $company = $data->select("reg_company", "id = ".$folderdata['id_company']);
+            $company = $company[0];
+        }else{
+            $company = 0;
+        }
+
+        if($folderdata['id_user']){
+            $setting = $data->select("sys_setting", "id_user = ".$folderdata['id_user']);
+            if($setting){
+                $setting = $setting[0];
+            }else{
+                $setting = 0;
+            }
+        }
+        require_once "./src/views/folderPage.php";
     }
 
     

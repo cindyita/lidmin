@@ -27,8 +27,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($setting['app_name']) && $setting['app_name'] ? $setting['app_name'] : 'LiDMIN'; ?> | ARCHIVO</title>
     <link rel="shortcut icon" href="<?php echo isset($setting['favicon']) && $setting['favicon'] ? './assets/img/userapp/favicon/'.$setting['favicon'] : './assets/img/system/favicon.png'; ?>" type="image/PNG">
-    <link rel="stylesheet" href="./assets/css/app.css?upd=2">
-    <link rel="stylesheet" href="./assets/css/pages/pages.css?upd=3">
+    <link rel="stylesheet" href="./assets/css/app.css?upd=<?php echo VERSION; ?>">
+    <link rel="stylesheet" href="./assets/css/pages/pages.css?upd=<?php echo VERSION; ?>">
     <script src="https://kit.fontawesome.com/e0df5df9e9.js" crossorigin="anonymous"></script>
     <style>
         header {
@@ -45,7 +45,7 @@
             max-height: 90%;
             width: auto;
         }
-        .container .content #share-buttons a {
+        .content .content #share-buttons a {
             color: <?php
             if ($company != 0) {
                 echo $company['primary_color'];
@@ -95,7 +95,7 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="content">
         <header>
             <?php if ($company != 0) { ?>
                 <img src="./assets/img/company/<?php echo $company['logo']; ?>" />

@@ -13,6 +13,8 @@ if (isset($_GET['page'])) {
         BaseController::viewQr($_GET['qr']);
     }elseif ($page === 'filepage' && method_exists('baseController', 'filePage')) {
         BaseController::filePage($_GET['file']);
+    }elseif ($page === 'verfolder' && method_exists('baseController', 'folderPage')) {
+        BaseController::folderPage($_GET['folder']);
     } else {
         echo "Error 404: No encontramos lo que buscas.";
     }

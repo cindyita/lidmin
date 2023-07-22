@@ -1,6 +1,6 @@
-function editCompany(id) {
+function companyUpdateModalData(id) {
     $.ajax({
-        url: './src/controllers/actionController.php?action=selectcompany',
+        url: './src/controllers/actionController.php?action=companyRead',
         type: 'POST',
         data: { id: id },
         success: function (res) {
@@ -13,7 +13,7 @@ function editCompany(id) {
             $('#web_edit').val(data['website']);
             $('#email_edit').val(data['email']);
             $('#tel_edit').val(data['phone']);
-            $('#companyid').val(data['id']);
+            $('#companyUpdateId').val(data['id']);
         },
         error: function(xhr) {
             console.error('Error en la solicitud. Código de estado: ' + xhr.status);
@@ -21,9 +21,9 @@ function editCompany(id) {
     });
 }
 
-function deleteCompany(id) {
-    $("#deleteCompanyid").html(id);
-    $("#deleteid").val(id);
+function companyDeleteModalData(id) {
+    $("#companyDeleteIdText").html(id);
+    $("#companyDeleteId").val(id);
 }
 
 $(document).ready(function () {
@@ -69,32 +69,10 @@ $(document).ready(function () {
             alert('Solo se permiten archivos de imagen (jpg, jpeg, png, gif)');
             return;
         }
-
-        $.ajax({
-            url: './src/controllers/actionController.php?action=createcompany',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false, 
-            success: function (res) {
-                if (res == 1) {
-                    message('success', 'Se registró la empresa correctamente');
-                    setTimeout(function() {
-                        window.location.reload();
-                    }, 800);
-                    $('#createCompanyForm')[0].reset();
-                } else {
-                    message('error', 'Algo salió mal');
-                    console.log(res);
-                }
-            },
-            error: function(xhr) {
-                console.error('Error en la solicitud. Código de estado: ' + xhr.status);
-            }
-        });
+        sendForm(formData,'company','create');
     });
 
-    //Evitar que suban pdf gran tamaño
+    //Limit size pdf
     fileInput = $('#logo_edit');
     fileInput.on('change', function() {
         var file = this.files[0];
@@ -106,7 +84,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#editCompanyForm').submit(function (event) {
+    $('#companyUpdateForm').submit(function (event) {
         event.preventDefault();
         
         var nameValue = $('#name_edit').val();
@@ -136,57 +114,13 @@ $(document).ready(function () {
         } else {
             var formData = new FormData(this);
         }
-
-        $.ajax({
-            url: './src/controllers/actionController.php?action=editcompany',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false, 
-            success: function (res) {
-                if (res == 1) {
-                    message('success', 'Se editó la empresa correctamente');
-                    setTimeout(function() {
-                        window.location.reload();
-                    }, 800);
-                    $('#editCompanyForm')[0].reset();
-                } else {
-                    message('error', 'Algo salió mal');
-                    console.log(res);
-                }
-            },
-            error: function(xhr) {
-                console.error('Error en la solicitud. Código de estado: ' + xhr.status);
-            }
-        });
+        sendForm(formData,'company','update');
     });
 
-    $('#deleteCompanyForm').submit(function (event) {
-
+    $('#companyDeleteForm').submit(function (event) {
         event.preventDefault();
         var formData = new FormData(this);
-
-        $.ajax({
-            url: './src/controllers/actionController.php?action=deletecompany',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false, 
-            success: function (res) {
-                if (res == 1) {
-                    message('success', 'Se eliminó la empresa correctamente');
-                    setTimeout(function() {
-                        window.location.reload();
-                    }, 800);
-                } else {
-                    message('error', 'Algo salió mal');
-                    console.log(res);
-                }
-            },
-            error: function(xhr) {
-                console.error('Error en la solicitud. Código de estado: ' + xhr.status);
-            }
-        });
+        sendForm(formData,'company','delete');
     });
 
 });

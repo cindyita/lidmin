@@ -1,6 +1,6 @@
-// Filtro de búsqueda de archivo
+
 $(document).ready(function () {
-  
+  // Search file
   const searchInput = $('#search-file');
   const archiveCards = $('.archive-card-content');
 
@@ -21,7 +21,7 @@ $(document).ready(function () {
     });
   });
 
-  $('#addpasswordForm').submit(function (event) {
+  $('#createPasswordForm').submit(function (event) {
 
     event.preventDefault();
 
@@ -38,34 +38,11 @@ $(document).ready(function () {
 
     var formData = new FormData(this);
 
-    $.ajax({
-        url: './src/controllers/actionController.php?action=addpassword',
-        type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false, 
-      success: function (res) {
-          switch (res) {
-            case '1':
-              message('success', 'Se guardó la contraseña');
-              setTimeout(function() {
-                  window.location.reload();
-              }, 700);
-            break;
-            default:
-              message('error', 'Algo salió mal');
-              console.log(res);
-            break;
-          }
-        },
-        error: function(xhr) {
-            console.error('Error en la solicitud. Código de estado: ' + xhr.status);
-        }
-    });
+    sendForm(formData,'password','create');
 
   });
 
-  //Evitar que suban favicon de gran tamaño
+  //Limit Size Favicon
   fileup = $('#fileup');
   fileup.on('change', function() {
       var file = this.files[0];
@@ -77,7 +54,7 @@ $(document).ready(function () {
       }
   });
 
-  $('#newfileForm').submit(function (event) {
+  $('#fileCreateForm').submit(function (event) {
     event.preventDefault();
 
     if (fileup[0].files[0]) {
@@ -89,15 +66,16 @@ $(document).ready(function () {
     }
 
     $.ajax({
-        url: './src/controllers/actionController.php?action=newfile',
+        url: './src/controllers/actionController.php?action=fileCreate',
         type: 'POST',
         data: formData,
         processData: false,
         contentType: false, 
       success: function (res) {
+        console.log(res);
           switch (res) {
             case '1':
-              message('success', 'Se subió el nuevo archivo');
+              messageLoader('success', 'Se subió el nuevo archivo');
               setTimeout(function() {
                   window.location.reload();
               }, 700);
@@ -120,12 +98,12 @@ $(document).ready(function () {
     });
   });
 
-    $('#editFileForm').submit(function (event) {
+    $('#fileUpdateForm').submit(function (event) {
         event.preventDefault();
         var formData = new FormData(this);
 
         $.ajax({
-            url: './src/controllers/actionController.php?action=editfile',
+            url: './src/controllers/actionController.php?action=fileUpdate',
             type: 'POST',
             data: formData,
             processData: false,
@@ -133,7 +111,7 @@ $(document).ready(function () {
           success: function (res) {
               switch (res) {
                 case '1':
-                  message('success', 'Se editó el archivo');
+                  messageLoader('success', 'Se editó el archivo');
                   setTimeout(function() {
                       window.location.reload();
                   }, 700);
@@ -162,19 +140,8 @@ $(document).ready(function () {
 
 });
 
-//copiar link
-function copyToClipboard(text) {
-  navigator.clipboard.writeText(text)
-    .then(function() {
-      message('success', 'Enlace copiado al portapapeles');
-    })
-    .catch(function() {
-      message('error', 'No se pudo copiar el enlace');
-    });
-}
-
 //Modal password
-function modalAddPass(id, password) {
+function passwordCreateModalData(id, password) {
   if (password) {
     $("#actualPass").html(password);
   } else {
@@ -185,16 +152,16 @@ function modalAddPass(id, password) {
   $("#id_pass").val(id);
 }
 
-function removepassword() {
+function passwordDelete() {
     id = $("#id_pass").val();
     $.ajax({
-        url: './src/controllers/actionController.php?action=removepassword',
+        url: './src/controllers/actionController.php?action=passwordDelete',
         type: 'POST',
         data: {id:id},
       success: function (res) {
           switch (res) {
             case '1':
-              message('success', 'Se removió la contraseña');
+              messageLoader('success', 'Se removió la contraseña');
               setTimeout(function() {
                   window.location.reload();
               }, 700);
@@ -211,20 +178,20 @@ function removepassword() {
     });
 }
 
-function deletefile(idfile, idqr) {
+function fileDelete(idfile, idqr) {
   if (idqr) {
     message('error', 'No se puede eliminar un archivo enlazado a un QR, elimina el registro del QR para eliminar este archivo');
     return;
     }
   
     $.ajax({
-        url: './src/controllers/actionController.php?action=deletefile',
+        url: './src/controllers/actionController.php?action=fileDelete',
         type: 'POST',
         data: {id:idfile},
       success: function (res) {
           switch (res) {
             case '1':
-              message('success', 'Se borró el archivo');
+              messageLoader('success', 'Se borró el archivo');
               setTimeout(function() {
                   window.location.reload();
               }, 700);
@@ -241,13 +208,14 @@ function deletefile(idfile, idqr) {
     });
 }
 
-function modalEditFile(id, name, id_company) {
+function updateModalData(id, name, id_company) {
   $("#id_edit").val(id);
   $("#title_edit").val(name);
   $("#filetitle").html(name);
-  $("#company_edit").val(id_company);
   if (!id_company) {
-    $("#company_edit").val('NULL');
+    $("#companyUpdate").val('0');
+  } else {
+    $("#companyUpdate").val(id_company);
   }
 }
 

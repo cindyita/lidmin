@@ -3,6 +3,8 @@
 session_start();
 require_once("config.php");
 require_once("./src/controllers/baseController.php");
+require_once("./src/resources/html.php");
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -36,6 +38,10 @@ if (isset($_GET['page'])) {
         BaseController::companyTable();
     }elseif ($page === 'archivos' && method_exists('baseController', 'fileTable')) {
         BaseController::fileTable();
+    }elseif ($page === 'enlaces' && method_exists('baseController', 'linkTable')) {
+        BaseController::linkTable();
+    } elseif ($page === 'carpetas' && method_exists('baseController', 'folderTable')) {
+        BaseController::folderTable();
     }elseif ($page === 'usuarios' && method_exists('baseController', 'usersTable')) {
         //BaseController::usersTable();
     }elseif ($page === 'config' && method_exists('baseController', 'settings')) {

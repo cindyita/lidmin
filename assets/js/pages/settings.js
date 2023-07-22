@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-  //Evitar que suban logos de gran tamaño
+  //Limit size logo
   logoInput = $('#logo');
   logoInput.on('change', function() {
       var file = this.files[0];
@@ -12,7 +12,7 @@ $(document).ready(function () {
       }
   });
 
-  //Evitar que suban favicon de gran tamaño
+  //Limit size favicon
   faviconInput = $('#favicon');
   faviconInput.on('change', function() {
       var file = this.files[0];
@@ -24,7 +24,7 @@ $(document).ready(function () {
       }
   });
 
-  //Guardar configuración
+  //save settings
   $('#savesettings').submit(function (event) {
 
     event.preventDefault();
@@ -64,8 +64,7 @@ $(document).ready(function () {
               message('error', 'No se permite esa extensión de archivo');
               break;
             default:
-              
-              message('success', 'Se guardó la configuración correctamente');
+              messageLoader('success', 'Se guardó la configuración correctamente');
               var data = JSON.parse(res);
               data = data[0];
 
@@ -81,6 +80,10 @@ $(document).ready(function () {
               if (data.favicon) {
                 $('#favicon').next('.text-muted').text('Actual: ' + data.logo);
               }
+
+              setTimeout(function() {
+                    window.location.reload();
+                }, 700);
               
             break;
           }
@@ -102,7 +105,7 @@ function setdefault() {
       success: function (res) {
         switch (res) {
             case '1':
-              message('success', 'Se guardó la configuración correctamente');
+              message('success', 'Se guardó la configuración correctamente. Actualizando...');
               setTimeout(function() {
                     window.location.reload();
                 }, 700);

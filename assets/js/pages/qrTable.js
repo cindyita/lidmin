@@ -1,20 +1,28 @@
-function editQr(id, name, company) {
-    $("#editqrid").html(id);
-    $("#editid").val(id);
-    $("#name").val(name);
-    if (company) {
-        $("#company").val(company);    
-    }
+function qrUpdateModalData(id) {
+    $("#qrUpdateIdText").html(id);
+    $("#qrUpdateId").val(id);
+    sendAjax(id, 'qrRead')
+        .then(function (res) {
+            data = JSON.parse(res);
+            data = data[0];
+            $("#nameUpdate").val(data['name']);
+            if (data['id_company']) {
+                $("#companyUpdate").val(data['id_company']);    
+            }
+        })
+    .catch(function(error) {
+        console.error(error);
+    });
 }
 
-function deleteQr(id) {
-    $("#deleteqrid").html(id);
-    $("#deleteid").val(id);
+function qrDeleteModalData(id) {
+    $("#qrDeleteIdText").html(id);
+    $("#qrDeleteId").val(id);
 }
 
 $(document).ready(function () {
 
-    $('#editQrForm').submit(function (event) {
+    $('#qrUpdateForm').submit(function (event) {
 
         event.preventDefault();
         
@@ -26,55 +34,102 @@ $(document).ready(function () {
 
         var formData = new FormData(this);
 
-        $.ajax({
-            url: './src/controllers/actionController.php?action=editqr',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false, 
-            success: function (res) {
-                if (res == 1) {
-                    message('success', 'Se editó el QR correctamente');
-                    setTimeout(function() {
-                        window.location.reload();
-                    }, 800);
-                } else {
-                    message('error', 'Algo salió mal');
-                    console.log(res);
-                }
-            },
-            error: function(xhr) {
-                console.error('Error en la solicitud. Código de estado: ' + xhr.status);
-            }
-        });
+        sendForm(formData,'qr','update');
+
     });
 
-    $('#deleteQrForm').submit(function (event) {
+    $('#qrDeleteForm').submit(function (event) {
 
         event.preventDefault();
         var formData = new FormData(this);
 
-        $.ajax({
-            url: './src/controllers/actionController.php?action=deleteqr',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false, 
-            success: function (res) {
-                if (res == 1) {
-                    message('success', 'Se eliminó el QR correctamente');
-                    setTimeout(function() {
-                        window.location.reload();
-                    }, 800);
-                } else {
-                    message('error', 'Algo salió mal');
-                    console.log(res);
-                }
-            },
-            error: function(xhr) {
-                console.error('Error en la solicitud. Código de estado: ' + xhr.status);
-            }
-        });
+        sendForm(formData,'qr','delete');
+    });
+
+// Select generate QR from (appear fields)
+  const generateSelect = $('#generate');
+  const urlField = $('#url-field');
+  const fileField = $('#file-field');
+
+  urlField.hide();
+  fileField.hide();
+
+  generateSelect.on('change', function() {
+    const selectedOption = generateSelect.val();
+    if (selectedOption === 'url') {
+      urlField.show();
+      fileField.hide();
+    } else if (selectedOption === 'file') {
+      urlField.hide();
+      fileField.show();
+    } else {
+      urlField.hide();
+      fileField.hide();
+    }
+  });
+
+  //Limit size file
+  fileInput = $('#file');
+  fileInput.on('change', function() {
+      var file = this.files[0];
+      var maxSize = 5 * 1024 * 1024; // 5MB
+
+      if (file.size > maxSize) {
+          alert('El archivo excede el tamaño máximo permitido (5MB)');
+          $(this).val('');
+      }
+  });
+
+  //Generate QR
+    $('#qrCreateForm').submit(function (event) {
+      
+        event.preventDefault();
+
+        var companyValue = $('#company').val();
+        var generateValue = $('#generate').val();
+        var urlValue = $('#url').val();
+
+        if (companyValue == 'null') {
+            messageModal('danger', 'Debes seleccionar una o ninguna empresa', 'qrCreateModal');
+            return;
+        }
+        if (generateValue == 'null') {
+            messageModal('danger', 'Debes seleccionar un modo de generación', 'qrCreateModal');
+            return;
+        }
+
+        if (generateValue == 'url' && urlValue == '') {
+            messageModal('danger', 'Debes ingresar una url', 'qrCreateModal');
+            return;
+        }
+
+        if (generateValue == 'url' && urlValue != '' && !validarURL(urlValue)) {
+            messageModal('danger', 'La URL es inválida', 'qrCreateModal');
+            return;
+        }
+
+        if (generateValue == 'file' && !fileInput[0].files[0]) {
+            messageModal('danger', 'Debes seleccionar un archivo file', 'qrCreateModal');
+            return;
+        }
+
+        if (generateValue == 'web' && companyValue == 'null' || generateValue == 'web' && companyValue == '0' ||generateValue == 'web' && companyValue == 0) {
+            messageModal('danger', 'No puedes crear un QR a partir de un campo indefinido', 'qrCreateModal');
+            return;
+        }
+
+        modalLoaderIn('qrCreateModal');
+
+        if (generateValue == 'file') {
+        var file = fileInput[0].files[0];
+        var formData = new FormData(this);
+        formData.append('file', file);
+        } else {
+        var formData = new FormData(this);
+        }
+        
+        sendForm(formData,'qr','create');
+        
     });
 
 });

@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lidmin | Administador de enlaces, QR, archivos y más</title>
     <link rel="shortcut icon" href="./assets/img/system/favicon.png" type="image/PNG">
-    <link rel="stylesheet" href="./assets/css/app.css?upd=3" />
-    <link rel="stylesheet" href="./assets/css/login.css?upd=3" />
+    <link rel="stylesheet" href="./assets/css/app.css?upd=<?php echo VERSION; ?>" />
+    <link rel="stylesheet" href="./assets/css/login.css?upd=<?php echo VERSION; ?>" />
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <!-----------ReCaptcha------------>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
@@ -42,8 +42,8 @@
                         <input class="form-check-input" type="checkbox" name="remember" id="remember"> Recuerdame
                         </label>
                     </div>
-                    <!------>
-                    <div class="g-recaptcha" data-sitekey="6LcVxR0nAAAAAFrJIgfTBJVTh0cI7FucX7wJcoIZ"></div>
+                    <!---
+                    <div class="g-recaptcha" data-sitekey="6LcVxR0nAAAAAFrJIgfTBJVTh0cI7FucX7wJcoIZ"></div>--->
                     <button type="submit" class="btn btn-primary">Entrar</button>
                 </form>
             </div>
@@ -52,7 +52,7 @@
         
     </div>
 
-    <script src="./assets/js/pages/login.js"></script>
+    <script src="./assets/js/pages/login.js?upd=<?php echo VERSION; ?>"></script>
     
 </body>
 </html>

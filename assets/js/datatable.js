@@ -1,9 +1,13 @@
+/**
+ * Javascript Datatable init
+ */
 
-$(document).ready(function () {
-    
-    /*-------Configurar tablas---------*/
-    var table = $('table').DataTable( {
-        dom: 'Bfrtip',
+var table;
+var handleDataTable = function () {
+    /*-------Table---------*/
+     table = $('table').DataTable({
+         dom: 'Bfrtip',
+         columns: getColumnsFromTable('table'),
         buttons: [
             'copyHtml5',
             'excelHtml5',
@@ -42,6 +46,30 @@ $(document).ready(function () {
             } );
         });
     });
+    
     /*----------------*/
+}
 
+var TableManage = function () {
+	"use strict";
+	return {
+		init: function () {
+			handleDataTable();
+		}
+	};
+}();
+
+function getColumnsFromTable(tableSelector) {
+    var columns = [];
+    $(tableSelector + ' thead th').each(function() {
+        var columnName = $(this).text().trim();
+        var columnData = { data: columnName };
+        columns.push(columnData);
+    });
+    return columns;
+}
+
+$(document).ready(function () {
+    TableManage.init();
 });
+

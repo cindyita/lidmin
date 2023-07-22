@@ -7,7 +7,7 @@ class Layout{
         $stylesOut = '';
         if ($stylesIn != '' && is_array($stylesIn)){
             foreach ($stylesIn as $value) {
-                $stylesOut .= '<link rel="stylesheet" href="'.$value.'?upd='.rand().'">';
+                $stylesOut .= '<link rel="stylesheet" href="'.$value.'?upd='.VERSION.'">';
             }
         }
 
@@ -46,11 +46,66 @@ class Layout{
             $favicon = './assets/img/system/favicon.png';
             $nameApp = 'LiDMIN';
         }
-        
+
+        $primary_menu = '
+                        <a href="dashboard.php" class="' . (($page == '' || $page == 'dashboard') ? "active" : "") . '">
+                            <li>
+                                <i class="fa-solid fa-gauge-high"></i>
+                                <span>Dashboard</span>
+                            </li>
+                        </a>
+                        <a href="dashboard.php?page=qr" class="' . ($page == 'qr' ? "active" : "") . '">
+                            <li>
+                                <i class="fa-solid fa-qrcode"></i>
+                                <span>QR generados</span>
+                            </li>
+                        </a>
+                        <a href="dashboard.php?page=enlaces" class="' . ($page == 'enlaces' ? "active" : "") . '">
+                            <li>
+                                <i class="fa-solid fa-link"></i>
+                                <span>Enlaces</span>
+                            </li>
+                        </a>
+                        <a href="dashboard.php?page=archivos" class="' . ($page == 'archivos' ? "active" : "") . '">
+                            <li>
+                                <i class="fa-solid fa-file"></i>
+                                <span>Archivos</span>
+                            </li>
+                        </a>
+                        <a href="dashboard.php?page=carpetas" class="' . ($page == 'carpetas' ? "active" : "") . '">
+                            <li>
+                                <i class="fa-solid fa-folder-open"></i>
+                                <span>Carpetas</span>
+                            </li>
+                        </a>
+                        <!---<a href="dashboard.php?page=colecciones" class="' . ($page == 'colecciones' ? "active" : "") . '">
+                            <li>
+                                <i class="fa-solid fa-folder-tree"></i>
+                                <span>Colecciones</span>
+                            </li>
+                        </a>--->
+                        <a href="dashboard.php?page=empresas" class="' . ($page == 'empresas' ? "active" : "") . '">
+                            <li>
+                                <i class="fa-solid fa-building"></i>
+                                <span>Empresas</span>
+                            </li>
+                        </a>
+                        <a href="dashboard.php?page=config" class="' . ($page == 'config' ? "active" : "") . '">
+                            <li>
+                                <i class="fa-solid fa-gear"></i>
+                                <span>Configuración</span>
+                            </li>
+                        </a>
+                        <!---<a href="dashboard.php?page=usuarios" class="">
+                            <li>
+                                <i class="fa-solid fa-user"></i>
+                                <span>Usuarios</span>
+                            </li>
+                        </a>--->';
 
         echo '
                 <title>'.$nameApp.' | Dashboard</title>
-                <link rel="stylesheet" href="./assets/css/app.css?upd='.rand().'">
+                <link rel="stylesheet" href="./assets/css/app.css?upd='.VERSION.'">
                 '.$colors.'
                 <link rel="shortcut icon" href="'.$favicon.'" type="image/PNG">
                 '.$stylesOut.'
@@ -63,9 +118,11 @@ class Layout{
                     <div class="sidebar">
                         <div class="logomenu">
 
-                            <div class="logo">
-                                <img src="'.$logourl.'" alt="logo">
-                            </div>
+                            <a href="dashboard.php">
+                                <div class="logo">
+                                    <img src="'.$logourl.'" alt="logo">
+                                </div>
+                            </a>
 
                             <div class="menu">
 
@@ -75,42 +132,7 @@ class Layout{
                                 </div>
                                 
                                 <nav>
-                                    <a href="dashboard.php" class="'.(($page == '' || $page == 'dashboard') ? "active" : "").'">
-                                        <li>
-                                            <i class="fa-solid fa-gauge-high"></i>
-                                            <span>Generar QR</span>
-                                        </li>
-                                    </a>
-                                    <a href="dashboard.php?page=qr" class="'.($page == 'qr' ? "active" : "").'">
-                                        <li>
-                                            <i class="fa-solid fa-qrcode"></i>
-                                            <span>QR generados</span>
-                                        </li>
-                                    </a>
-                                    <a href="dashboard.php?page=empresas" class="'.($page == 'empresas' ? "active" : "").'">
-                                        <li>
-                                            <i class="fa-solid fa-building"></i>
-                                            <span>Empresas</span>
-                                        </li>
-                                    </a>
-                                    <a href="dashboard.php?page=archivos" class="'.($page == 'archivos' ? "active" : "").'">
-                                        <li>
-                                            <i class="fa-solid fa-file"></i>
-                                            <span>Archivos</span>
-                                        </li>
-                                    </a>
-                                    <a href="dashboard.php?page=config" class="'.($page == 'config' ? "active" : "").'">
-                                        <li>
-                                            <i class="fa-solid fa-gear"></i>
-                                            <span>Configuración</span>
-                                        </li>
-                                    </a>
-                                    <!---<a href="dashboard.php?page=usuarios" class="">
-                                        <li>
-                                            <i class="fa-solid fa-user"></i>
-                                            <span>Usuarios</span>
-                                        </li>
-                                    </a>--->
+                                    '.$primary_menu.'
                                 </nav>
                             </div>
 
@@ -124,42 +146,7 @@ class Layout{
 
                     <div id="menu-mobile" class="collapse collapse-menu-mobile">
                         <nav>
-                            <a href="dashboard.php" class="'.($page == '' ? "active" : "").'">
-                                <li>
-                                    <i class="fa-solid fa-gauge-high"></i>
-                                    <span>Generar</span>
-                                </li>
-                            </a>
-                            <a href="dashboard.php?page=qr" class="'.($page == 'qr' ? "active" : "").'">
-                                <li>
-                                    <i class="fa-solid fa-qrcode"></i>
-                                    <span>QR generados</span>
-                                </li>
-                            </a>
-                            <a href="dashboard.php?page=empresas" class="'.($page == 'empresas' ? "active" : "").'">
-                                <li>
-                                    <i class="fa-solid fa-building"></i>
-                                    <span>Empresas</span>
-                                </li>
-                            </a>
-                            <a href="dashboard.php?page=archivos" class="'.($page == 'archivos' ? "active" : "").'">
-                                <li>
-                                    <i class="fa-solid fa-file"></i>
-                                    <span>Archivos</span>
-                                </li>
-                            </a>
-                            <a href="dashboard.php?page=config" class="'.($page == 'config' ? "active" : "").'">
-                                <li>
-                                    <i class="fa-solid fa-gear"></i>
-                                    <span>Configuración</span>
-                                </li>
-                            </a>
-                            <!---<a href="dashboard.php?page=usuarios" class="">
-                                <li>
-                                    <i class="fa-solid fa-user"></i>
-                                    <span>Usuarios</span>
-                                </li>
-                            </a>---->
+                            '.$primary_menu.'
                         </nav>
                     </div>
 
@@ -171,7 +158,7 @@ class Layout{
         $scriptsOut = '';
         if ($scriptsIn != '' && is_array($scriptsIn)){
             foreach ($scriptsIn as $value) {
-                $scriptsOut .= '<script src="'.$value.'"></script>';
+                $scriptsOut .= '<script src="'.$value.'?upd='.VERSION.'"></script>';
             }
         }
         echo '
@@ -183,8 +170,8 @@ class Layout{
 
                 </div>
                 <!--SCRIPTS-->
-                <script src="./assets/js/datatable.js"></script>
-                <script src="./assets/js/app.js?upd='.rand().'"></script>
+                <script src="./assets/js/datatable.js?upd='.VERSION.'"></script>
+                <script src="./assets/js/app.js?upd='.VERSION.'"></script>
                 '.$scriptsOut.'
         ';
     }

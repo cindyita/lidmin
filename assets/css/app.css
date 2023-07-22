@@ -36,13 +36,12 @@ h1,h2,h3,h4 {
     font-weight: 600 !important;
 }
 
-input,select {
-    border-radius: 8px !important;
+input,select,textarea {
     border: 1px solid var(--tertiary) !important;
     padding: 9px 12px !important;
 }
 
-input:focus, select:focus, select, input.form-control:focus, select.form-control:focus,a:focus {
+input:focus, select:focus,textarea:focus, select, input.form-control:focus, select.form-control:focus,a:focus {
     outline:none !important;
     outline-width: 0 !important;
     box-shadow: none !important;
@@ -50,7 +49,7 @@ input:focus, select:focus, select, input.form-control:focus, select.form-control
     -webkit-box-shadow: none !important;
 }
 
-input:focus, select:focus{
+input:focus, select:focus, textarea:focus{
     border: 1px solid var(--primary) !important;
 }
 /*------------------*/
@@ -63,6 +62,17 @@ input:focus, select:focus{
 .btn-warning:hover {
     background-color: var(--secondary) !important;
     color: var(--white);
+}
+.btn-view {
+    background-color: var(--tertiary);
+    border:0 !important;
+    color: var(--white);
+}
+.btn-view:hover {
+    background-color: var(--tertiary);
+    border:0 !important;
+    color: var(--white);
+    opacity:0.8;
 }
 .modal-content {
     background-color: var(--white);
@@ -105,7 +115,7 @@ input:focus, select:focus{
 
 .main .sidebar .logo {
     text-align: center;
-    padding-bottom: 10%;
+    padding-bottom: 20%;
 }
 
 .main .sidebar nav,
@@ -163,14 +173,17 @@ input:focus, select:focus{
 }
 
 /*---BOOTSTRAP---*/
-
+.btn.btn-primary {
+    background-color: var(--primary);
+    border:0;
+}
+.btn.btn-secondary {
+    background-color: var(--secondary);
+    border:0;
+}
 .btn.btn-dark {
     background-color: var(--font);
     border:0;
-}
-.btn.btn-dark:hover,
-.btn.btn-dark:active {
-    background-color: var(--primary);
 }
 
 button.btn {
@@ -180,7 +193,21 @@ button.btn {
 .form-check-input:checked {
     background-color: var(--primary);
 }
-
+.text-primary {
+    color: var(--primary);
+}
+.text-secondary {
+    color: var(--secondary);
+}
+.bg-primary {
+    background-color: var(--primary);
+}
+.bg-secondary {
+    background-color: var(--secondary);
+}
+.cursor-pointer {
+    cursor: pointer;
+}
 /*----DATATABLES----*/
 
 .datatable {
@@ -387,9 +414,14 @@ table.dataTable.table-striped>tbody>tr.odd>* {
         flex-grow: 5;
         align-items: center;
     }
+    .main .sidebar .logomenu a {
+        height:100%;
+    }
     .main .sidebar .logo {
         padding-bottom: 0;
         height: 100%;
+        text-align:start;
+        padding:8px
     }
     .main .sidebar .logo img {
         height: 100%;
@@ -449,6 +481,7 @@ table.dataTable.table-striped>tbody>tr.odd>* {
     }
     .info-card {
         width: 100%;
+        padding:15px;
     }
     .archive-card .archive-card-content {
         width: 170px;

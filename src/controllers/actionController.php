@@ -15,48 +15,115 @@ switch ($action) {
     case 'logout':
         logout();
     break;
-    case 'generateqr':
-        generateQR($data);
+    //QR -------------
+    case 'qrReadTable':
+        qrReadTable();
     break;
+    case 'qrRead':
+        qrRead($data);
+    break;
+    case 'qrCreate':
+        qrCreate($data);
+    break;
+    case 'qrUpdate':
+        qrUpdate($data);
+    break;
+    case 'qrDelete':
+        qrDelete($data);
+    break;
+    //LINK -------------
+    case 'linkReadTable':
+        linkReadTable();
+    break;
+    case 'linkRead':
+        linkRead($data);
+    break;
+    case 'linkCreate':
+        linkCreate($data);
+    break;
+    case 'linkUpdate':
+        linkUpdate($data);
+    break;
+    case 'linkDelete':
+        linkDelete($data);
+    break;
+    //FILE ---------------
+    case 'fileCreate':
+        fileCreate($data);
+    break;
+    case 'fileUpdate':
+        fileUpdate($data);
+    break;
+    case 'fileDelete':
+        fileDelete($data);
+    break;
+    case 'passwordCreate':
+        passwordCreate($data);
+    break;
+    case 'passwordDelete':
+        passwordDelete($data);
+    break;
+    // FOLDER ----------------
+    case 'folderReadFiles':
+        folderReadFiles($data);
+    break;
+    case 'folderReadTable':
+        folderReadTable();
+    break;
+    case 'folderRead':
+        folderRead($data);
+    break;
+    case 'folderCreate':
+        folderCreate($data);
+    break;
+    case 'folderUpdate':
+        folderUpdate($data);
+    break;
+    case 'folderDelete':
+        folderDelete($data);
+    break;
+    case 'folderReadType':
+        folderReadType($data);
+    break;
+    case 'folderAdd':
+        folderAdd($data);
+    break;
+    case 'elementFolderDelete':
+        elementFolderDelete($data);
+    break;
+    case 'folderReadPassword':
+        folderReadPassword($data);
+    break;
+    case 'folderPasswordCreate':
+        folderPasswordCreate($data);
+    break;
+    case 'folderPasswordDelete':
+        folderPasswordDelete($data);
+    break;
+    // COMPANY ---------------
+    case 'companyReadTable':
+        companyReadTable();
+    break;
+    case 'companyRead':
+        companyRead($data);
+    break;
+    case 'companyCreate':
+        companyCreate($data);
+    break;
+    case 'companyUpdate':
+        companyUpdate($data);
+    break;
+    case 'companyDelete':
+        companyDelete($data);
+    break;
+    // SETTINGS -------------
     case 'savesettings':
         saveSettings($data);
-    break;
-    case 'editqr':
-        editQr($data);
-    break;
-    case 'deleteqr':
-        deleteQr($data);
-    break;
-    case 'selectcompany':
-        selectCompany($data);
-    break;
-    case 'createcompany':
-        createCompany($data);
-    break;
-    case 'editcompany':
-        editCompany($data);
-    break;
-    case 'deletecompany':
-        deleteCompany($data);
-    break;
-    case 'deletefile':
-        deletefile($data);
-    break;
-    case 'editfile':
-        editfile($data);
-    break;
-    case 'addpassword':
-        addpassword($data);
-    break;
-    case 'removepassword':
-        removepassword($data);
     break;
     case 'setdefault':
         setdefault();
     break;
-    case 'newfile':
-        newfile($data);
-    break;
+    // ----------------------
     default:
         echo json_encode("No se definió una acción");
     break;
@@ -66,14 +133,14 @@ function login($data){
 
     try{
         // ReCaptcha
-        /*-----------*/
+        /*-------
         $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify'; 
         $recaptcha_secret = '6LcVxR0nAAAAAEsXfq83Av-3i-KALzwKclGK7vUQ'; 
         $recaptcha_response = $data['g-recaptcha-response']; 
         $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response); 
         $recaptcha = json_decode($recaptcha); 
 
-        if($recaptcha->success == true){
+        if($recaptcha->success == true){----*/
 
             $bm = new BaseModel();
             $user = $bm->select("sys_user", "username = '".$data['username']."'");
@@ -90,12 +157,12 @@ function login($data){
             }else{
                 echo 0;
             }
-        /*-------*/
+        /*-----
         } else {
 
             echo 2;
 
-        }
+        }--*/
         
     }catch(exception $e){
         echo json_encode('error: '.$e);
@@ -114,7 +181,27 @@ function logout()
     
 }
 
-function generateQR($data)
+function qrReadTable() {
+    try {
+        $bd = new BaseModel();
+        $res = $bd->query("SELECT ROW_NUMBER() OVER (ORDER BY q.id) AS Fila, q.id AS id, q.name AS `Descripción`, q.destination AS Destino, q.type AS Tipo, c.name AS Empresa, DATE_FORMAT(q.timestamp_create, '%Y-%m-%d') AS Creado, CONCAT('') AS Acciones FROM reg_qr q LEFT JOIN reg_company c ON q.id_company = c.id WHERE q.id_user = :id_user", array(":id_user" => $_SESSION['user_id']));
+        echo json_encode($res);
+    } catch(PDOException $e) {
+        echo "Error en la consulta: " . $e->getMessage();
+    }
+}
+function qrRead($data) {
+
+    try {
+        $bd = new BaseModel();
+        $res = $bd->query("SELECT * FROM reg_qr WHERE id_user = :id_user AND id = :id", array(":id_user" => $_SESSION['user_id'],":id"=>$data['data']));
+        echo json_encode($res);
+    } catch(PDOException $e) {
+        echo "Error en la consulta: " . $e->getMessage();
+    }
+}
+
+function qrCreate($data)
 {
     $bm = new BaseModel();
 
@@ -125,7 +212,7 @@ function generateQR($data)
     $patronText = '/^[a-zA-Z0-9\s\-]+$/';
     /*$patronUrl = '/^(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-_.,@?^=%&amp;:/~\+#]*[\w\-_@\?^=%&amp;/~\+#])?$/';*/
 
-    if (!preg_match($patronText, $data['title'])) {
+    if (!preg_match($patronText, $data['name'])) {
         echo "errorpattern";
         exit;
     }
@@ -152,15 +239,15 @@ function generateQR($data)
                 $qrCode->writeFile("../../assets/img/qr/{$_SESSION['user_id']}/{$name}.png");
 
                 $insert = array(
-                    'name' => $data['title'],
+                    'name' => $data['name'],
                     'type' => $data['generate'],
                     'archive' => $name.'.png',
                     'id_company' => $company,
                     'destination' => $data['url'],
                     'id_user' => $_SESSION['user_id']
                 );
-                $bm->insert("reg_qr", $insert);
-                echo 1;
+                $res = $bm->insert("reg_qr", $insert);
+                echo $res;
 
             }catch(PDOException $e){
                 echo "Error en la consulta: " . $e->getMessage();
@@ -206,7 +293,7 @@ function generateQR($data)
                     move_uploaded_file($temp, $routeSave);
 
                     $insert = array(
-                        'name' => $data['title'],
+                        'name' => $data['name'],
                         'archive' => $nameFile,
                         'type' => $extension,
                         'id_qr' => null,
@@ -230,7 +317,7 @@ function generateQR($data)
                     $qrCode->writeFile("../../assets/img/qr/{$_SESSION['user_id']}/{$name}.png");
 
                     $insert2 = array(
-                        'name' => $data['title'],
+                        'name' => $data['name'],
                         'type' => $data['generate'],
                         'archive' => $name.'.png',
                         'id_company' => $company,
@@ -245,9 +332,9 @@ function generateQR($data)
                     $upd = array(
                         'id_qr' => $lastid2
                     );
-                    $bm->update("reg_archive", $upd,"id = ".$lastid);
+                    $res = $bm->update("reg_archive", $upd,"id = ".$lastid);
 
-                    echo 1;
+                    echo $res;
                 }else{
                     echo 0;
                 }
@@ -273,7 +360,7 @@ function generateQR($data)
                 $qrCode->writeFile("../../assets/img/qr/{$_SESSION['user_id']}/{$name}.png");
 
                 $insert = array(
-                    'name' => $data['title'],
+                    'name' => $data['name'],
                     'type' => $data['generate'],
                     'archive' => $name.'.png',
                     'id_company' => $company,
@@ -281,8 +368,8 @@ function generateQR($data)
                     'id_user' => $_SESSION['user_id']
                 );
 
-                $bm->insert("reg_qr", $insert);
-                echo 1;
+                $res = $bm->insert("reg_qr", $insert);
+                echo $res;
 
             }catch(PDOException $e){
                 echo "Error en la consulta: " . $e->getMessage();
@@ -290,6 +377,130 @@ function generateQR($data)
         break;
     }
 }
+
+function qrUpdate($data) {
+    $bm = new BaseModel();
+    try {
+
+        $company = $data['company'] != 'NULL' && $data['company'] != '0' ? $data['company'] : null;
+        $upd = array(
+            'name' => $data['name'],
+            'id_company' => $company,
+        );
+        $res = $bm->update("reg_qr", $upd,"id = ".$data['qrUpdateId']);
+        echo $res;
+    }catch(PDOException $e){
+        echo "Error en la consulta: " . $e->getMessage();
+    }
+}
+
+function qrDelete($data){
+    try{
+        $bm = new BaseModel();
+
+        $qr = $bm->select("reg_qr", "id = ".$data['qrDeleteId']);
+        $qrarchive = $qr[0]['archive'];
+
+        $archive = "../../assets/img/qr/{$qr[0]['id_user']}/{$qrarchive}";
+        if (file_exists($archive)) {
+            unlink($archive);
+        }
+
+        if($qr[0]['type'] == 'file'){
+            $file = $bm->select("reg_archive", "id_qr = ".$data['qrDeleteId']);
+            $filearchive = $file[0]['archive'];
+            $archive = "../../assets/doc/{$_SESSION['user_id']}/{$filearchive}";
+            if (file_exists($archive)) {
+                unlink($archive);
+            }
+            $bm->delete("reg_archive", "id_qr = ".$data['qrDeleteId']);
+        }
+
+        $res = $bm->delete("reg_qr", "id = ".$data['qrDeleteId']);
+        $bm->delete("rel_folder_files", "id_item = ".$data['qrDeleteId']." AND type = 'qr'");
+        echo $res;
+    }catch(PDOException $e){
+        echo "Error en la consulta: " . $e->getMessage();
+    }
+}
+
+function linkReadTable() {
+    try {
+        $bd = new BaseModel();
+        $res = $bd->query("SELECT ROW_NUMBER() OVER (ORDER BY q.id) AS Fila, q.id AS id, q.name AS `Titulo`, q.url AS `URL`, c.name AS Empresa, DATE_FORMAT(q.timestamp_create, '%Y-%m-%d') AS Creado, CONCAT('') AS Acciones FROM reg_link q LEFT JOIN reg_company c ON q.id_company = c.id WHERE q.id_user = :id_user", array(":id_user" => $_SESSION['user_id']));
+        echo json_encode($res);
+    } catch(PDOException $e) {
+        echo "Error en la consulta: " . $e->getMessage();
+    }
+}
+function linkRead($data) {
+
+    try {
+        $bd = new BaseModel();
+        $res = $bd->query("SELECT * FROM reg_link WHERE id_user = :id_user AND id = :id", array(":id_user" => $_SESSION['user_id'],":id"=>$data['data']));
+        echo json_encode($res);
+    } catch(PDOException $e) {
+        echo "Error en la consulta: " . $e->getMessage();
+    }
+}
+
+function linkCreate($data){
+    try{
+        $bm = new BaseModel();
+
+        $name = isset($data['name']) ? $data['name'] : null;
+        $url = isset($data['url']) ? $data['url'] : null;
+        $company = isset($data['company']) ? $data['company'] : null;
+
+        $insert = array(
+            'name' => $name,
+            'url' => $url,
+            'id_company'=>$company,
+            'id_user' => $_SESSION['user_id']
+        );
+        $bm->insert("reg_link", $insert);
+        echo 1;
+
+    }catch(PDOException $e){
+        echo "Error en la consulta: " . $e->getMessage();
+    }
+}
+
+function linkUpdate($data) {
+
+    try{
+        $bm = new BaseModel();
+
+        $name = isset($data['name']) ? $data['name'] : null;
+        $url = isset($data['url']) ? $data['url'] : null;
+        $company = isset($data['company']) ? $data['company'] : null;
+
+
+        $upd = array(
+            'name' => $name,
+            'url' => $url,
+            'id_company'=>$company
+        );
+    
+        $bm->update("reg_link", $upd,"id =".$data['linkUpdateId']);
+        echo 1;
+
+    }catch(PDOException $e){
+        echo "Error en la consulta: " . $e->getMessage();
+    }
+}
+
+function linkDelete($data) {
+    try{
+        $bm = new BaseModel();
+        $bm->delete("reg_link", "id = ".$data['linkDeleteId']);
+        $bm->delete("rel_folder_files", "id_item = ".$data['linkDeleteId']." AND type = 'link'");
+        echo 1;
+    }catch(PDOException $e){
+        echo "Error en la consulta: " . $e->getMessage();
+    }
+}
+
 
 function saveSettings($data) {
     try{
@@ -402,51 +613,252 @@ function saveSettings($data) {
     }
 }
 
-function editQr($data) {
-    $bm = new BaseModel();
-    try {
-        $company = $data['company'] != 'NULL' ? $data['company'] : null;
-        $upd = array(
-            'name' => $data['name'],
-            'id_company' => $company,
-        );
-        $bm->update("reg_qr", $upd,"id = ".$data['editid']);
-        echo 1;
-    }catch(PDOException $e){
-        echo "Error en la consulta: " . $e->getMessage();
-    }
-}
-
-function deleteQr($data){
+function folderCreate($data) {
     try{
         $bm = new BaseModel();
 
-        $qr = $bm->select("reg_qr", "id = ".$data['deleteid']);
-        $qrarchive = $qr[0]['archive'];
+        $name = isset($data['name']) ? $data['name'] : null;
+        $description = isset($data['description']) ? $data['description'] : null;
+        $company = isset($data['company']) ? $data['company'] : null;
 
-        $archive = "../../assets/img/qr/{$qr[0]['id_user']}/{$qrarchive}";
-        if (file_exists($archive)) {
-            unlink($archive);
-        }
+        $insert = array(
+            'name' => $name,
+            'description' => $description,
+            'id_company'=>$company,
+            'id_user' => $_SESSION['user_id']
+        );
+        $bm->insert("reg_folder", $insert);
+        echo 1;
 
-        if($qr[0]['type'] == 'file'){
-            $file = $bm->select("reg_archive", "id_qr = ".$data['deleteid']);
-            $filearchive = $file[0]['archive'];
-            $archive = "../../assets/doc/{$_SESSION['user_id']}/{$filearchive}";
-            if (file_exists($archive)) {
-                unlink($archive);
-            }
-            $bm->delete("reg_archive", "id_qr = ".$data['deleteid']);
-        }
+    }catch(PDOException $e){
+        echo "Error en la consulta: " . $e->getMessage();
+    }
+}
 
-        $bm->delete("reg_qr", "id = ".$data['deleteid']);
+function folderReadFiles($data) {
+    try {
+        $bd = new BaseModel();
+
+        // Folder files
+        $resultFiles = $bd->query("SELECT f.type, 
+            CASE f.type
+                WHEN 'qr' THEN qr.id
+                WHEN 'link' THEN link.id
+                WHEN 'archive' THEN archive.id
+            END AS id,
+            CASE f.type
+                WHEN 'qr' THEN qr.name
+                WHEN 'link' THEN link.name
+                WHEN 'archive' THEN archive.name
+            END AS name
+        FROM rel_folder_files f
+        LEFT JOIN reg_qr qr ON f.type = 'qr' AND f.id_item = qr.id
+        LEFT JOIN reg_link link ON f.type = 'link' AND f.id_item = link.id
+        LEFT JOIN reg_archive archive ON f.type = 'archive' AND f.id_item = archive.id
+        WHERE f.id_folder = :id_folder", array(":id_folder" => $data['data']));
+
+        // Folder Info
+        $resultFolder = $bd->query("SELECT name AS folder_name, description AS folder_description
+        FROM reg_folder WHERE id = :id_folder", array(":id_folder" => $data['data']));
+
+        $response = array(
+            "files" => $resultFiles,
+            "folder" => $resultFolder
+        );
+
+        echo json_encode($response);
+    } catch(PDOException $e) {
+        echo "Error en la consulta: " . $e->getMessage();
+    }
+}
+
+function folderReadTable() {
+    try {
+        $bd = new BaseModel();
+        $res = $bd->query("SELECT CONCAT('<i class=\"fa-solid fa-folder pe-2\"></i>', ROW_NUMBER() OVER (ORDER BY q.id)) AS Fila, 
+                          q.id AS id, 
+                          IF(q.password IS NOT NULL, CONCAT('<i class=\"fa-solid fa-lock text-warning\"></i> ', q.name), q.name) AS `Nombre`,
+                          c.name AS Empresa, 
+                          DATE_FORMAT(q.timestamp_create, '%Y-%m-%d') AS Creado, 
+                          CONCAT('') AS Acciones 
+                          FROM reg_folder q 
+                          LEFT JOIN reg_company c ON q.id_company = c.id 
+                          WHERE q.id_user = :id_user", 
+                          array(":id_user" => $_SESSION['user_id']));
+
+        echo json_encode($res);
+        
+    } catch(PDOException $e) {
+        echo "Error en la consulta: " . $e->getMessage();
+    }
+}
+
+
+function folderRead($data) {
+    try {
+        $bd = new BaseModel();
+        $res = $bd->query("SELECT * FROM reg_folder WHERE id_user = :id_user AND id = :id", array(":id_user" => $_SESSION['user_id'],":id"=>$data['data']));
+        echo json_encode($res);
+    } catch(PDOException $e) {
+        echo "Error en la consulta: " . $e->getMessage();
+    }
+}
+
+function folderUpdate($data) {
+    try{
+        $bm = new BaseModel();
+
+        $name = isset($data['name']) ? $data['name'] : null;
+        $description = isset($data['description']) ? $data['description'] : null;
+        $company = isset($data['company']) ? $data['company'] : null;
+
+        $upd = array(
+            'name' => $name,
+            'description' => $description,
+            'id_company'=>$company
+        );
+    
+        $bm->update("reg_folder", $upd,"id =".$data['folderUpdateId']);
+        echo 1;
+
+    }catch(PDOException $e){
+        echo "Error en la consulta: " . $e->getMessage();
+    }
+}
+
+function folderDelete($data) {
+    try{
+        $bm = new BaseModel();
+        $bm->delete("rel_folder_files", "id_folder = ".$data['folderDeleteId']);
+        $bm->delete("reg_folder", "id = ".$data['folderDeleteId']);
         echo 1;
     }catch(PDOException $e){
         echo "Error en la consulta: " . $e->getMessage();
     }
 }
 
-function selectCompany($data) {
+function folderReadType($data) {
+    try {
+        $type = $data['data'];
+        switch ($type) {
+            case 'archive':
+                $table = "reg_archive";
+                break;
+            case 'qr':
+                $table = "reg_qr";
+                break;
+            case 'link':
+                $table = "reg_link";
+                break;
+            default:
+                echo json_encode("Ningún tipo seleccionado");
+                return;
+            break;
+        }
+        $bd = new BaseModel();
+        $res = $bd->query("SELECT id,name FROM $table WHERE id_user = :id_user", array(":id_user" => $_SESSION['user_id']));
+        echo json_encode($res);
+    } catch(PDOException $e) {
+        echo "Error en la consulta: " . $e->getMessage();
+    }
+}
+
+function folderAdd($data) {
+    try{
+        $bm = new BaseModel();
+
+        if (is_string($data['addList']) && json_decode($data['addList'], true)) {
+            $addListArray = json_decode($data['addList'], true);
+
+            foreach ($addListArray as $key => $value) {
+                $select = $bm->select("rel_folder_files", "id_folder = ".$data['folderAddId']." AND id_item = ".$key." AND type = '".$value['type']."'");
+                if(!$select){
+                    $insert = array(
+                        'id_folder' => $data['folderAddId'],
+                        'id_item' => $key,
+                        'type'=>$value['type']
+                    );
+                    $bm->insert("rel_folder_files", $insert);
+                }
+            }
+        } else {
+            echo json_encode('Invalid JSON data for list');
+        }
+        echo 1;
+
+    }catch(PDOException $e){
+        echo "Error en la consulta: " . $e->getMessage();
+    }
+}
+
+function elementFolderDelete($data) {
+
+    try{
+        $idFolder = $data['data']['folder'];
+        $idItem = $data['data']['element'];
+        $type = $data['data']['type'];
+
+        $bm = new BaseModel();
+        $delete = $bm->delete("rel_folder_files", "id_folder = ".$idFolder." AND id_item = ".$idItem." AND type = '".$type."'");
+        echo $delete;
+    }catch(PDOException $e){
+        echo "Error en la consulta: " . $e->getMessage();
+    }
+}
+
+function folderReadPassword($data) {
+    try{
+        $bm = new BaseModel();
+        $data = $bm->query("SELECT name,password FROM reg_folder WHERE id = :id", array(":id" => $data['data']));
+        echo json_encode($data);
+        
+    } catch(PDOException $e){
+        echo "Error en la consulta: " . $e->getMessage();
+    }
+}
+
+function folderPasswordCreate($data) {
+    $bm = new BaseModel();
+    try {
+        $id = $data['id'];
+        $pass = $data['pass'];
+        $upd = array(
+            'password' => $pass
+        );
+        $bm->update("reg_folder", $upd,"id = ".$id);
+        echo 1;
+    }catch(PDOException $e){
+        echo "Error en la consulta: " . $e->getMessage();
+    }
+}
+
+function folderPasswordDelete($data) {
+    $bm = new BaseModel();
+    try {
+        $id = $data['id'];
+
+        $upd = array(
+            'password' => null
+        );
+        $bm->update("reg_folder", $upd,"id = ".$id);
+        echo 1;
+    }catch(PDOException $e){
+        echo "Error en la consulta: " . $e->getMessage();
+    }
+}
+
+function companyReadTable() {
+    try {
+        $bd = new BaseModel();
+
+        $res = $bd->query("SELECT ROW_NUMBER() OVER (ORDER BY q.id) AS Fila, q.id AS id, CONCAT('<img src=\"./assets/img/company/',q.logo,'\" height=\"40px\">') AS `Logo`, q.name AS `Nombre`, q.website AS `Sitio web`, q.email AS `Email`, q.phone AS `Teléfono` , q.primary_color AS `Color` , DATE_FORMAT(q.timestamp_create, '%Y-%m-%d') AS Creado, CONCAT('') AS Acciones FROM reg_company q WHERE q.id_user = :id_user", array(":id_user" => $_SESSION['user_id']));
+        echo json_encode($res);
+    } catch(PDOException $e) {
+        echo "Error en la consulta: " . $e->getMessage();
+    }
+}
+
+function companyRead($data) {
     try{
         $bm = new BaseModel();
         $company = $bm->select("reg_company", "id = '".$data['id']."'");
@@ -457,7 +869,7 @@ function selectCompany($data) {
     }
 }
 
-function createCompany($data){
+function companyCreate($data){
     try{
         $bm = new BaseModel();
 
@@ -496,7 +908,7 @@ function createCompany($data){
     }
 }
 
-function editCompany($data) {
+function companyUpdate($data) {
 
     try{
         $bm = new BaseModel();
@@ -538,7 +950,7 @@ function editCompany($data) {
             );
         }
         
-        $bm->update("reg_company", $upd,"id =".$data['companyid']);
+        $bm->update("reg_company", $upd,"id =".$data['companyUpdateId']);
         echo 1;
 
     }catch(PDOException $e){
@@ -546,11 +958,11 @@ function editCompany($data) {
     }
 }
 
-function deleteCompany($data) {
+function companyDelete($data) {
     try{
         $bm = new BaseModel();
 
-        $company = $bm->select("reg_company", "id = ".$data['deleteid']);
+        $company = $bm->select("reg_company", "id = ".$data['companyDeleteId']);
         $companyarchive = $company[0]['logo'];
 
         $archive = "../../assets/img/company/{$companyarchive}";
@@ -558,14 +970,14 @@ function deleteCompany($data) {
             unlink($archive);
         }
 
-        $bm->delete("reg_company", "id = ".$data['deleteid']);
+        $bm->delete("reg_company", "id = ".$data['companyDeleteId']);
         echo 1;
     }catch(PDOException $e){
         echo "Error en la consulta: " . $e->getMessage();
     }
 }
 
-function addpassword($data) {
+function passwordCreate($data) {
     $bm = new BaseModel();
     try {
         $id = $data['id'];
@@ -580,7 +992,7 @@ function addpassword($data) {
     }
 }
 
-function removepassword($data) {
+function passwordDelete($data) {
     $bm = new BaseModel();
     try {
         $id = $data['id'];
@@ -621,7 +1033,7 @@ function setdefault() {
     }
 }
 
-function newfile($data) {
+function fileCreate($data) {
     try{
         if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK){
 
@@ -686,7 +1098,7 @@ function newfile($data) {
     }
 }
 
-function deletefile($data) {
+function fileDelete($data) {
     try{
         $bm = new BaseModel();
 
@@ -699,15 +1111,15 @@ function deletefile($data) {
         if (file_exists($archive)) {
             unlink($archive);
         }
-
         $bm->delete("reg_archive", "id = ".$id);
+        $bm->delete("rel_folder_files", "id_item = ".$id." AND type = 'archive'");
         echo 1;
     }catch(PDOException $e){
         echo "Error en la consulta: " . $e->getMessage();
     }
 }
 
-function editfile($data) {
+function fileUpdate($data) {
     
     try{
         $bm = new BaseModel();
