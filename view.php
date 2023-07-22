@@ -1,6 +1,7 @@
 <?php
 
 require_once("config.php");
+require_once("info.php");
 require_once("./src/controllers/baseController.php");
 
 $page = isset($_GET['page']) ? $_GET['page'] : "";

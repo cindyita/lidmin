@@ -2,6 +2,7 @@
 
 session_start();
 require_once("config.php");
+require_once("info.php");
 require_once("./src/controllers/baseController.php");
 require_once("./src/resources/html.php");
 
