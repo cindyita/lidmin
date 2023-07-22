@@ -151,7 +151,7 @@ function passwordDelete() {
                 messageLoader('success', 'Se removió la contraseña');
                 setTimeout(function() {
                     window.location.reload();
-                }, 500);
+                }, 700);
             break;
             default:
               message('error', 'Algo salió mal');

@@ -168,7 +168,7 @@ $(document).ready(function () {
                   messageLoader('success', 'Se editó el archivo');
                   setTimeout(function() {
                       window.location.reload();
-                  }, 500);
+                  }, 700);
                   break;
                 default:
                   message('error', 'Algo salió mal');
@@ -218,7 +218,7 @@ function passwordDelete() {
               messageLoader('success', 'Se removió la contraseña');
               setTimeout(function() {
                   window.location.reload();
-              }, 500);
+              }, 700);
             break;
             default:
               message('error', 'Algo salió mal');
