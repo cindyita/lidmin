@@ -47,6 +47,8 @@ class Layout{
             $nameApp = 'LiDMIN';
         }
 
+        $favicon_mime_type = mime_content_type($favicon);
+
         $primary_menu = '
                         <a href="dashboard.php" class="' . (($page == '' || $page == 'dashboard') ? "active" : "") . '">
                             <li>
@@ -107,11 +109,12 @@ class Layout{
                 <title>'.$nameApp.' | Dashboard</title>
                 <link rel="stylesheet" href="./assets/css/app.css?upd='.VERSION.'">
                 '.$colors.'
-                <link rel="shortcut icon" href="'.$favicon.'" type="image/PNG">
+                <link rel="shortcut icon" href="'.$favicon.'" type="'.$favicon_mime_type.'">
                 '.$stylesOut.'
                 
             </head>
             <body>
+            <input type="hidden" id="limit_size_files" value="'.$_SESSION['limit_size_files'].'">
             
                 <div class="main">
 
