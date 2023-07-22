@@ -86,7 +86,7 @@ if($data){
     <div class="py-5">
         <hr>
         <h5>Creditos</h5>
-        <p class="text-muted">LiDMIN v<?php echo VERSION; ?> Creado por VirtualBlux</p>
+        <p class="text-muted">LiDMIN v<?php echo VERSION; ?> <br>Creado por <a class="text-muted" href="https://virtualblux.com">VirtualBlux</a></p>
     </div>
 
     <!----Modals----->
