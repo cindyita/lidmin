@@ -6,3 +6,9 @@ composer.lock
 
 #ignorar config
 config.php
+
+#ignorar doc e img
+/assets/doc/
+/assets/img/company/
+/assets/img/qr/
+/assets/img/userapp/
