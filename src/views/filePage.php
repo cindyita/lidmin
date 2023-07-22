@@ -107,7 +107,7 @@
             <?php }elseif($setting != 0 && $company == 0 && $setting['logo']){ ?>
                 <img src="./assets/img/userapp/logo/<?php echo $setting['logo']; ?>" height="85%" />
             <?php }else{ ?>
-                <h2>Ver archivo <?php echo $filedata['type']; ?></h2>
+                <h3>Ver archivo <?php echo $filedata['type']; ?></h3>
             <?php } ?>
         </header>
         <div class="content">
@@ -139,7 +139,7 @@
 
             <?php } else { ?>
 
-                <h2>El archivo tiene contraseña</h2>
+                <h3>El archivo tiene contraseña</h3>
                 <p><?php echo $filedata['archive']; ?></p>
                 <form method="post">
                     <div class="input-group mb-3">

@@ -305,7 +305,7 @@ class BaseController
             LEFT JOIN reg_qr qr ON f.type = 'qr' AND f.id_item = qr.id
             LEFT JOIN reg_link link ON f.type = 'link' AND f.id_item = link.id
             LEFT JOIN reg_archive archive ON f.type = 'archive' AND f.id_item = archive.id
-            WHERE f.id_folder = :id_folder;
+            WHERE f.id_folder = :id_folder ORDER BY f.id DESC;
             ", array(":id_folder" => $folder));
 
         $folderdata = $folderdata[0];
