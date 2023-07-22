@@ -5,23 +5,23 @@ Layout::header('dashboard',['./assets/css/pages/dashboard.css']);
     <div class="stats-panel">
 
         <div class="info-card">
-            <div>QR Generados</div>
-            <span><i class="fa-solid fa-qrcode"></i> <span id="qrcount"><?php echo $stats['qr_count']; ?></span></span>
+            <div>QR</div>
+            <span><i class="fa-solid fa-qrcode"></i> <span><?php echo $stats['qr_count']; ?></span></span>
         </div>
 
         <div class="info-card">
-            <div>Empresas</div>
-            <span><i class="fa-solid fa-building"></i> <span id="companycount"><?php echo $stats['company_count']; ?></span></span>
+            <div>Enlaces</div>
+            <span><i class="fa-solid fa-link"></i> <span><?php echo $stats['link_count']; ?></span></span>
         </div>
 
         <div class="info-card">
             <div>Archivos</div>
-            <span><i class="fa-solid fa-file"></i> <span id="qrcount"><?php echo $stats['file_count']; ?></span></span>
+            <span><i class="fa-solid fa-file"></i> <span><?php echo $stats['file_count']; ?></span></span>
         </div>
 
         <div class="info-card">
             <div>Carpetas</div>
-            <span><i class="fa-solid fa-folder"></i> <span id="qrcount"><?php echo $stats['folder_count']; ?></span></span>
+            <span><i class="fa-solid fa-folder"></i> <span><?php echo $stats['folder_count']; ?></span></span>
         </div>
 
     </div>
