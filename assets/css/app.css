@@ -7,6 +7,17 @@
     --lightfont: #e4e7ff;
     --font:#2E4AF3;
 }
+
+@font-face {
+  font-family: 'Lato';
+  src: url('../fonts/Lato/Lato-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Raleway';
+  src: url('../fonts/Raleway/Raleway-VariableFont_wght.ttf') format('truetype');
+}
+
 * {
     margin:0;
     padding:0;
